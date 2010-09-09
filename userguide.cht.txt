@@ -1,28 +1,26 @@
-AsciiDoc User Guide
-===================
+= AsciiDoc 使用者指南 =
 Stuart Rackham <srackham@gmail.com>
 :Author Initials: SJR
 
-AsciiDoc is a text document format for writing documentation,
-articles, manuals, books and UNIX man pages. AsciiDoc files can be
-translated to HTML and DocBook markups using the asciidoc(1) command.
-AsciiDoc is highly configurable: both the AsciiDoc source file syntax
-and the backend output markups (which can be almost any type of
-SGML/XML markup) can be customized and extended by the user.
+AsciiDoc為一個純文字文件的格式，我們可以用這個格式來來撰寫文件如,
+短篇文章(articles),說明手冊(manuals),書藉(book)或是UNIX man pages。
+所寫成的AsciiDoc檔可以使用asciidoc(1)命令來轉譯成HTML或DocBook之類的標記
+AsciiDoc可根據你的需求進行高度的調教、及組態的設定：不論是AsciiDoc源碼檔的語法
+或是後端輸出的標記(這些標記幾乎可以是任何一種形式的SGML/XML標記)都可以由使用者
+自行客製化或自行擴充。
 
-.This document
+.關於本文件
 **********************************************************************
-This is an overly large document, it probably needs to be refactored
-into a Tutorial, Quick Reference and Formal Reference.
+這實在是一份非常大的文件，我想它應該是有需要重整成入門手冊、FAQ、快速
+參考文件、正式參考文件…等等。
 
-If you're new to AsciiDoc read this section and the <<X6,Getting
-Started>> section and take a look at the example AsciiDoc (`*.txt`)
-source files in the distribution `doc` directory.
+如果你還是個AsciiDoc的新手的話，你可讀這一段跟<<X6,讓我們開始吧！>>這
+一段，然後看一下AsciiDoc源碼檔( `.txt` 檔)的一些範例。這些範例可以在我
+們釋出的發行版本裡面的 `doc` 目錄下找到。 
 **********************************************************************
 
 
-Introduction
-------------
+== 導論 ==
 AsciiDoc is a plain text human readable/writable document format that
 can be translated to DocBook or HTML using the asciidoc(1) command.
 You can then either use asciidoc(1) generated HTML directly or run
@@ -61,16 +59,13 @@ and fixing syntax errors, than I was writing the documentation.
 
 
 [[X6]]
-Getting Started
----------------
-Installing AsciiDoc
-~~~~~~~~~~~~~~~~~~~
-See the `README` and `INSTALL` files for install prerequisites and
-procedures. Packagers take a look at <<X38,Packager Notes>>.
+== 讓我們開始吧！ ==
+=== 安裝AsciiDoc ===
+在 `README` 和 `INSTALL` 這兩個檔案裡有關於安裝前需知和安裝程序。套件製作者
+請看一下 <<X38,套件製作者注意事項。
 
 [[X11]]
-Example AsciiDoc Documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== AsciiDoc文件範例 ===
 The best way to quickly get a feel for AsciiDoc is to view the
 AsciiDoc web site and/or distributed examples:
 
