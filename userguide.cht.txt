@@ -21,40 +21,35 @@ AsciiDoc可根據你的需求進行高度的調教、及組態的設定：不論
 
 
 == 導論 ==
-AsciiDoc is a plain text human readable/writable document format that
-can be translated to DocBook or HTML using the asciidoc(1) command.
-You can then either use asciidoc(1) generated HTML directly or run
-asciidoc(1) DocBook output through your favorite DocBook toolchain or
-use the AsciiDoc a2x(1) toolchain wrapper to produce PDF, EPUB, DVI,
-LaTeX, PostScript, man page, HTML and text formats.
+AsciiDoc是一個純文字格式、一個人們可以輕易的讀/寫的格式，只要使用
+asciidoc(1)命令，可以轉成DocBook或HTML格式。
+你可以直接透過asciidoc(1)指令將AsciiDoc文件直接轉成HTML格式。或者使用
+asciidoc(1)的DocBook輸出，又或者使用AsciiDoc裡面a2x(1)這個程式來產生PDF、
+EPUB、DVI、LaTeX、PostScript、man page、HTML…等格式。
 
-The AsciiDoc format is a useful presentation format in its own right:
-AsciiDoc markup is simple, intuitive and as such is easily proofed and
-edited.
+AsciiDoc格式本身就是一個非常有用的一種表示格式：
+因為AsciiDoc的標記很簡單也很直覺，這樣一來就可以很容易的閱讀、查驗、與編
+輯。
 
-AsciiDoc is light weight: it consists of a single Python script and a
-bunch of configuration files. Apart from asciidoc(1) and a Python
-interpreter, no other programs are required to convert AsciiDoc text
-files to DocBook or HTML. See <<X11,Example AsciiDoc Documents>>
-below.
+AsciiDoc程式也很輕巧：程式主要由一支Python script及一些組態設定檔所組成。
+要把AsciiDoc格式的檔案轉成DocBook或HTML格式，除了asciidoc(1)命令和
+python直譯器之外就不需要其他程式了。請看下文的<<X11, AsciiDoc文件範例>>。
 
-Text markup conventions tend to be a matter of (often strong) personal
-preference: if the default syntax is not to your liking you can define
-your own by editing the text based asciidoc(1) configuration files.
-You can also create configuration files to translate AsciiDoc
-documents to almost any SGML/XML markup.
+文件中文字標記的慣例純屬個人愛好：
+如果預設的語法不合你的意的話你也可以定義你自己專用語法。這可以透過編輯
+asciidoc(1)組態檔(這些組態檔都是普通的文字檔而已)來完成。
+你也可以建立你專屬的組態檔，來轉譯AsciiDoc文件到任何以SGML/XML標記的後
+端格式。
 
-asciidoc(1) comes with a set of configuration files to translate
-AsciiDoc articles, books and man pages to HTML or DocBook backend
-formats.
+asciidoc(1)伴隨了一群的組態檔用來把不同的AsciiDoc文件類型(專題文章(article)、
+書藉(book)、man page)轉譯成HTML或DocBook的後端格式。
 
-.My AsciiDoc Itch
+.我對AsciiDoc的期盼
 **********************************************************************
-DocBook has emerged as the de facto standard Open Source documentation
-format. But DocBook is a complex language, the markup is difficult to
-read and even more difficult to write directly -- I found I was
-spending more time typing markup tags, consulting reference manuals
-and fixing syntax errors, than I was writing the documentation.
+DocBook幾乎已成為現今Open Source的文件的標準了。但是，DocBook實在是一
+個複雜的語言，它的標記很難讀，也很難直接寫 -- 我發現我過去花了許多時間
+在打字，打這些標記，也花了許多時間在查參考文件跟修改文法上的錯誤，花在
+上面這些事的時間，甚至比我真正在寫文章的時間還多。
 **********************************************************************
 
 
