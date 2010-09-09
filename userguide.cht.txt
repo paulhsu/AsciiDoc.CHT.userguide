@@ -3,7 +3,7 @@ Stuart Rackham <srackham@gmail.com>
 :Author Initials: SJR
 
 AsciiDoc為一個純文字文件的格式，我們可以用這個格式來來撰寫文件如,
-短篇文章(articles),說明手冊(manuals),書藉(book)或是UNIX man pages。
+短篇文章(articles),說明手冊(manuals),書籍(book)或是UNIX man pages。
 所寫成的AsciiDoc檔可以使用asciidoc(1)命令來轉譯成HTML或DocBook之類的標記
 AsciiDoc可根據你的需求進行高度的調教、及組態的設定：不論是AsciiDoc源碼檔的語法
 或是後端輸出的標記(這些標記幾乎可以是任何一種形式的SGML/XML標記)都可以由使用者
@@ -42,7 +42,7 @@ asciidoc(1)組態檔(這些組態檔都是普通的文字檔而已)來完成。
 端格式。
 
 asciidoc(1)伴隨了一群的組態檔用來把不同的AsciiDoc文件類型(專題文章(article)、
-書藉(book)、man page)轉譯成HTML或DocBook的後端格式。
+書籍(book)、man page)轉譯成HTML或DocBook的後端格式。
 
 .我對AsciiDoc的期盼
 **********************************************************************
@@ -71,7 +71,7 @@ DocBook幾乎已成為現今Open Source的文件的標準了。但是，DocBook�
 
 
 == AsciiDoc文件類型 ==
-AsciiDoc的文件類型有三類：專題文章(article)、書藉(book)和manpage。這三類的文
+AsciiDoc的文件類型有三類：專題文章(article)、書籍(book)和manpage。這三類的文
 件都使用相同的的AsciiDoc格式，但彼此間還是略有不同。若你對DocBook很熟的話，你
 大概已經注意到AsciiDoc文件類型對應到相同名字的DocBook文件類型)。
 
@@ -84,28 +84,28 @@ AsciiDoc的文件類型有三類：專題文章(article)、書藉(book)和manpag
 主要是短文，主題性專文，或一般性的文章。你可以在AsciiDoc釋出版裡面 
 `.doc/article.txt` 找到一些範例。
 
-AsciiDoc defines standard DocBook article frontmatter and backmatter
-<<X93,section markup templates>> (appendix, abstract, bibliography,
-glossary, index).
+AsciiDoc定義了標準DocBook文件用的前頁(frontmatter)及後頁(backmatter)
+<<X93,區段標記模版>> 如：附錄(appendix)，摘要(abstract)，參考書目(bibliography)
+，詞彙表(glossary), 索引(index))。
 
-=== 書藉(book) ===
-書藉跟專題文章所使用的格式一樣，但不同的地方如下：
+=== 書籍(book) ===
+書籍跟專題文章所使用的格式一樣，但不同的地方如下：
 
 - The part titles in multi-part books are <<X17,top level titles>>
   (same level as book title).
 - 有些區段(section)是book才有的例如：前言(preface)及版權頁(colophon)。
 
-Book documents will normally be used to produce DocBook output since
-DocBook processors can automatically generate footnotes, table of
-contents, list of tables, list of figures, list of examples and
-indexes.
 
-AsciiDoc defines standard DocBook book frontmatter and backmatter
-<<X93,section markup templates>> (appendix, dedication, preface,
-bibliography, glossary, index, colophon).
+通常書籍文件會用來產生DocBook的輸出因為DocBook處理器會自動產生註腳，目錄，表格目錄，
+圖示目錄，範例目錄及索引。
 
-.書藉文件範例
-書藉(Book)::
+AsciiDoc定義了標準DocBook文件用的前頁(frontmatter)及後頁(backmatter)
+<<X93,區段標記模版>> 如：附錄(appendix)，致謝(dedication)，前言(preface)，
+摘要(abstract)，參考書目(bibliography)，詞彙表(glossary), 索引(index)，
+版權頁(colophon))。
+
+.書籍文件範例
+書籍(Book)::
   請參考AsciiDoc釋出版中的 `./doc/book.txt` 文件。
 
 
@@ -169,11 +169,12 @@ AsciiDoc的XHTML輸出將使用CSS2樣式表。這個樣式表可以在釋出版
 以是一句話也可以是一本分成好幾部的書。
 
 === 塊狀單元 ===
-Block elements consist of one or more lines of text and may contain
-other block elements.
+塊狀單元由一行或多行的文字所組成，而一個塊狀單元也可以包含許多其他塊
+狀單元。
 
 AsciiDoc的塊狀結構大略的歸納起來，如下所示
 footnote:[這只是一個大概的概覽，並不是一個嚴謹的語法定義]：
+
 中文版
 
   文件         ::= (標頭?,前言?,分段*)
@@ -227,18 +228,15 @@ footnote:[這只是一個大概的概覽，並不是一個嚴謹的語法定義]
 
 [[X95]]
 === 標頭(Header) ===
-The Header contains a document title plus optional authorship and
-revision information:
+標頭必含了一份文件的標題還有(可有可無)作者及文件版本號的資訊：
 
-- The Header is optional, but if it is used it must start with a
-  document <<X17,title>>.
+- 標頭是可有可無的，但是一旦有的話一定在一個文件的最開頭<<X17,標題>>.
 - The header can be preceded by comments and <<X18,attribute
   entries>>.
-- Optional Author and Revision information immediately follows the
+- 作者資訊跟版本號資訊(這兩者都可有可無)必需緊跟在標頭標題之後。
   header title.
-- The header can include attribute entries.
-- The document header must be separated from the remainder of the
-  document by one or more blank lines.
+- 標頭可包含一些屬性項目。
+- 標頭必需跟在它之後的內容用一個以上的空白行隔開。
 
 這邊我們用一個例子來看一下AsciiDoc文件的標頭：
 
@@ -248,9 +246,7 @@ revision information:
   v2.0, February 2003:
   Rewritten for version 2 release.
 
-The author information line contains the author's name optionally
-followed by the author's email address. The author's name is formatted
-like:
+作者資訊列包含作者姓名後面跟著作者的電郵信箱(沒有也沒關系)。正式的格式如下：
 
   firstname[ [middlename ]lastname][ <email>]]
 
@@ -769,7 +765,7 @@ Titles
 ------
 Document and section titles can be in either of two formats:
 
-Two line titles
+雙行式標題Two line titles
 ~~~~~~~~~~~~~~~
 A two line title consists of a title line, starting hard against the
 left margin, and an underline. Section underlines consist a repeated
@@ -785,7 +781,7 @@ The default title underlines for each of the document levels are:
   Level 3:                 ^^^^^^^^^^^^^^^^^^^^^^
   Level 4 (bottom level):  ++++++++++++++++++++++
 
-Examples:
+舉例如下：
 
   Level One Section Title
   -----------------------
@@ -794,7 +790,7 @@ Examples:
   ~~~~~~~~~~~~~~~~~~~~~~~~
 
 [[X46]]
-One line titles
+單行式標題One line titles
 ~~~~~~~~~~~~~~~
 One line titles consist of a single line delimited on either side by
 one or more equals characters (the number of equals characters
@@ -814,7 +810,7 @@ corresponds to the section level minus one).  Here are some examples:
   configuration file `[titles]` section `sect0`...`sect4` entries.
 =====================================================================
 
-Floating titles
+浮動式標題Floating titles
 ~~~~~~~~~~~~~~~
 Setting the title's first positional attribute or 'style' attribute to
 'float' generates a free-floating title. A free-floating title is
