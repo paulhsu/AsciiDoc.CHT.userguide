@@ -57,51 +57,43 @@ DocBook幾乎已成為現今Open Source的文件的標準了。但是，DocBook�
 == 讓我們開始吧！ ==
 === 安裝AsciiDoc ===
 在 `README` 和 `INSTALL` 這兩個檔案裡有關於安裝前需知和安裝程序。套件製作者
-請看一下 <<X38,套件製作者注意事項。
+請看一下 <<X38,套件製作者注意事項>>。
 
 [[X11]]
 === AsciiDoc文件範例 ===
-The best way to quickly get a feel for AsciiDoc is to view the
-AsciiDoc web site and/or distributed examples:
+最好也最快了解AsciiDoc的方式就是去AsciiDoc網站看上面所發佈出來的範例：
 
-- Take a look at the linked examples on the AsciiDoc web site home
-  page http://www.methods.co.nz/asciidoc/.  Press the 'Page Source'
-  sidebar menu item to view corresponding AsciiDoc source.
-- Read the `*.txt` source files in the distribution `./doc` directory
-  along with the corresponding HTML and DocBook XML files.
+- 在AsciiDoc的首頁 http://www.methods.co.nz/asciidoc/ 上，有連結連到
+  相關的範例。而在畫面左邊的側邊欄中你可以點一下 'Page Source' 就可以
+  看到該範例的源碼。
+- 另外，在所釋出版裡面的 `./doc` 目錄下，你可以看一看裡面的 `.txt` 源
+  碼並相對應該源碼所產生出來的HTML檔跟DocBook的XML檔。
 
 
-AsciiDoc Document Types
------------------------
-There are three types of AsciiDoc documents: article, book and
-manpage. All document types share the same AsciiDoc format with some
-minor variations. If you are familiar with DocBook you will have
-noticed that AsciiDoc document types correspond to the same-named
-DocBook document types).
+== AsciiDoc文件類型 ==
+AsciiDoc的文件類型有三類：專題文章(article)、書藉(book)和manpage。這三類的文
+件都使用相同的的AsciiDoc格式，但彼此間還是略有不同。若你對DocBook很熟的話，你
+大概已經注意到AsciiDoc文件類型對應到相同名字的DocBook文件類型)。
 
-Use the asciidoc(1) `-d` (`--doctype`) option to specify the AsciiDoc
-document type -- the default document type is 'article'.
+使用asciidoc(1)命令時，用 `-d` (`--doctype`)選項來指定AsciiDoc的文件
+類型，預設的文件類型為 '專題文章(article)' 。
 
-By convention the `.txt` file extension is used for AsciiDoc document
-source files.
+習慣上，我們使用 `.txt` 這個副檔名作為AsciiDoc文件的副檔名。
 
-article
-~~~~~~~
-Used for short documents, articles and general documentation.  See the
-AsciiDoc distribution `./doc/article.txt` example.
+=== 專題文章(article) ===
+主要是短文，主題性專文，或一般性的文章。你可以在AsciiDoc釋出版裡面 
+`.doc/article.txt` 找到一些範例。
 
 AsciiDoc defines standard DocBook article frontmatter and backmatter
 <<X93,section markup templates>> (appendix, abstract, bibliography,
 glossary, index).
 
-book
-~~~~
-Books share the same format as articles, with the following
-differences:
+=== 書藉(book) ===
+書藉跟專題文章所使用的格式一樣，但不同的地方如下：
 
 - The part titles in multi-part books are <<X17,top level titles>>
   (same level as book title).
-- Some sections are book specific e.g. preface and colophon.
+- 有些區段(section)是book才有的例如：前言(preface)及版權頁(colophon)。
 
 Book documents will normally be used to produce DocBook output since
 DocBook processors can automatically generate footnotes, table of
@@ -112,122 +104,95 @@ AsciiDoc defines standard DocBook book frontmatter and backmatter
 <<X93,section markup templates>> (appendix, dedication, preface,
 bibliography, glossary, index, colophon).
 
-.Example book documents
-Book::
-  The `./doc/book.txt` file in the AsciiDoc distribution.
+.書藉文件範例
+書藉(Book)::
+  請參考AsciiDoc釋出版中的 `./doc/book.txt` 文件。
+
 
 Multi-part book::
-  The `./doc/book-multi.txt` file in the AsciiDoc distribution.
+  請參考AsciiDoc釋出版中的 `./doc/book-multi.txt` 文件。
 
-manpage
-~~~~~~~
-Used to generate roff format UNIX manual pages.  AsciiDoc manpage
-documents observe special header title and section naming conventions
--- see the <<X1,Manpage Documents>> section for details.
-
-AsciiDoc defines the 'synopsis' <<X93,section markup template>> to
-generate the DocBook `refsynopsisdiv` section.
-
-See also the asciidoc(1) man page source (`./doc/asciidoc.1.txt`) from
-the AsciiDoc distribution.
-
-
-[[X5]]
-AsciiDoc Backends
------------------
-The asciidoc(1) command translates an AsciiDoc formatted file to the
-backend format specified by the `-b` (`--backend`) command-line
-option. asciidoc(1) itself has little intrinsic knowledge of backend
-formats, all translation rules are contained in customizable cascading
-configuration files. Backend specific attributes are listed in the
-<<X88,Backend Attributes>> section.
-
-AsciiDoc ships with the following predefined backend output formats:
-
-docbook
-~~~~~~~
-AsciiDoc generates the following DocBook document types: article, book
-and refentry (corresponding to the AsciiDoc 'article', 'book' and
-'manpage' document types).
-
-DocBook documents are not designed to be viewed directly.  Most Linux
-distributions come with conversion tools (collectively called a
-toolchain) for <<X12,converting DocBook files>> to presentation
-formats such as Postscript, HTML, PDF, EPUB, DVI, PostScript, LaTeX,
-roff (the native man page format), HTMLHelp, JavaHelp and text.
-
-The AsciiDoc <<X86,Preamble>> element generates a DocBook book
-'preface'.
+=== manpage ===
+此類型文件是用來產生roff格式的UNIX man page。AsciiDoc的manpage
+文件會找尋特殊的標題，並用一些傳統分段的命名慣例來命名 -- 詳細內容請
+參考<<X1,Manpage Documents>>。
 
 [[X33]]
-xhtml11
-~~~~~~~
-The default asciidoc(1) backend is `xhtml11` -- XHTML 1.1 markup
-styled with CSS2. Output files have a `.html` extension.  'xhtml11'
-document generation is influenced by the following optional attributes
-(the default behavior is to generate XHTML with no section numbers,
-embedded CSS and no linked admonition icon images):
+=== xhtml11 ===
+asciidoc(1)預設的後端為 `xhtml11` ，它是XHTML 1.1的標記並使用CSS2為其
+樣式。預設的輸出檔的副檔名為 `.html` 。'xhtml11'  的文件的產生將受下列
+選項的影響而不同(在產生XHTML時，預設的行為是不產生分段編號(section numbers)，
+也不產生內嵌的CSS而且也沒有警告圖示的連結):
 
 [[X35]]
-Stylesheets
-^^^^^^^^^^^
-AsciiDoc XHTML output is styled using CSS2 stylesheets from the
-distribution `./stylesheets/` directory.
+==== Stylesheets ====
+AsciiDoc的XHTML輸出將使用CSS2樣式表。這個樣式表可以在釋出版中的 
+`./stylesheets/` 目錄中找到。
 
 [IMPORTANT]
 =====================================================================
-All browsers have CSS quirks, but Microsoft's IE6 has so many
-omissions and errors that the `xhtml11-quirks.css` stylesheet and
-`xhtml11-quirks.conf` configuration files are available for inclusion
-during XHTML backend processing to to implement workarounds for IE6.
-Set the AsciiDoc 'quirks' attribute to enable AsciiDoc's quirks mode,
-for example with the `--attribute quirks!` command-line option.
+所有的瀏覽器都有一些CSS怪癖(CSS quirks)，但是Microsoft's IE6實在有太
+多疏漏跟錯誤了，所以我們在作XHTML後端處理時用 `xhtml11-quirks.css` 
+這個樣式表跟 `xhtml11-quirks.conf` 這個組態檔來實作一些為著IE6的權宜
+之計。不過，如果你不使用IE6的話，可以在命令列下 `--attribute quirks!` 
+來忽略這個樣式表跟組態檔。
 =====================================================================
 
-Default 'xhtml11' stylesheets:
+預設的 'xhtml11' 樣示表：
 
 `./stylesheets/xhtml11.css`::
-    The main stylesheet.
+    主要的樣式表。
 
 `./stylesheets/xhtml11-manpage.css`::
-    Tweaks for manpage document type generation.
+    此樣式表用來產生manpage的文件類型。
 
 `./stylesheets/xhtml11-quirks.css`::
-    Stylesheet modifications to work around IE6 browser
-    incompatibilities.
+    此樣式表含了許多為了與IE6相容的修正。
 
-Use the 'theme' attribute to select an alternative set of stylesheets.
-For example, the command-line option `-a theme=foo` will use
-stylesheets `foo.css`, `foo-manpage.css` (and `foo-quirks.css` if
-quirks mode is enabled) instead of the default stylesheets.
+你可以使用 'theme' 屬性來選用其他的樣式表。舉列來說，如果你在命令列下
+`-a theme=foo` 則會使用 `foo.css` 、 `foo-manpage.css` (和 `foo-quirks.css` 
+，如果有啟用quirk mode的話) 這些樣式表，來取代原本預設的樣式表。
 
-Use the 'stylesheet' attribute to include an additional stylesheet in
-XHTML documents.  For example, the command-line option `-a
-stylesheet=newsletter.css` will use stylesheets `newsletter.css`.
+你也可以使用 'stylesheet' 屬性來引入附加的樣式表在XHTML文件中。舉例來
+說，在命令列使用 `-a stylesheet=newsletter.css` 會使用 `newsletter.css`
+這個樣式表。
 
-html4
-~~~~~
-This backend generates plain (unstyled) HTML 4.01 Transitional markup.
+=== html4 ===
+使用此後端將產生不帶樣式的HTML 4.01 Transitional標記。
 
 
-Document Structure
-------------------
-An AsciiDoc document consists of a series of <<X8,block elements>>
-starting with an optional document Header, followed by an optional
-Preamble, followed by zero or more document Sections.
+== 文件結構 ==
+一份AsciiDoc文件由一連串的<<X8,塊狀單元>>所組成，由一個文件標頭(可有可無)開始
+、緊接著是前言(可有可無)，前言之後就是零個或多個文件分段。
 
-Almost any combination of zero or more elements constitutes a valid
-AsciiDoc document: documents can range from a single sentence to a
-multi-part book.
+幾乎零個以上的元素的任意組合都可以構成一份有效的AsciiDoc文件：一份文件可
+以是一句話也可以是一本分成好幾部的書。
 
-Block Elements
-~~~~~~~~~~~~~~
+=== 塊狀單元 ===
 Block elements consist of one or more lines of text and may contain
 other block elements.
 
-The AsciiDoc block structure can be informally summarized as follows
-footnote:[This is a rough structural guide, not a rigorous syntax
-definition]:
+AsciiDoc的塊狀結構大略的歸納起來，如下所示
+footnote:[這只是一個大概的概覽，並不是一個嚴謹的語法定義]：
+中文版
+
+  文件         ::= (標頭?,前言?,分段*)
+  標頭         ::= (標題,(作者列,修訂版列?)?)
+  作者列       ::= (作者名,(作者中間的名字?,作者姓氏)?,電子郵件地址?)
+  修訂版列     ::= (修訂版號?,日期)
+  前言         ::= (分段本體)
+  分段         ::= (標題,分段本體?,(分段)*)
+  分段本體     ::= ((區塊標題?,區塊)|區塊巨集)+
+  區塊         ::= (文章分段,分隔區塊|條列|表格)
+  列表         ::= (彈型列表|編號型列表|標籤型列表|Callout列表)
+  彈型列表     ::= (列表項)+
+  編號型列表   ::= (列表項)+
+  Callout列表  ::= (列表項)+
+  標籤型列表   ::= (列表條)+
+  列表條       ::= (列表標籤,列表項)
+  列表項       ::= (列表項文字,(列表|列表段|列表延續))
+
+英文版
 
   Document      ::= (Header?,Preamble?,Section*)
   Header        ::= (Title,(AuthorInfo,RevisionInfo?)?)
@@ -246,23 +211,22 @@ definition]:
   ListLabel     ::= (ListTerm+)
   ListItem      ::= (ItemText,(List|ListParagraph|ListContinuation)*)
 
-Where:
+其中：
 
-- '?' implies zero or one occurrence, '+' implies one or more
-  occurrences, '*' implies zero or more occurrences.
+- '?' 表示出現零次或一次， '+' 表示出現一次或多次， '*' 表示出現零次
+  或多次。
 - All block elements are separated by line boundaries.
-- `BlockId`, `AttributeEntry` and `AttributeList` block elements (not
-  shown) can occur almost anywhere.
+- `BlockId`, `AttributeEntry` 及 `AttributeList` 這些塊狀單元(文件中看
+  不到)幾乎可以在任何地方出現。
 - There are a number of document type and backend specific
   restrictions imposed on the block syntax.
-- The following elements cannot contain blank lines: Header, Title,
-  Paragraph, ItemText.
+- 以下所列元素將不允許含有空白列：標頭(Header)、標題(Title)、文章分段
+  (Paragraph)、列表項文字(ItemText)。
 - A ListParagraph is a Paragraph with its 'listelement' option set.
 - A ListContinuation is a <<X15,list continuation element>>.
 
 [[X95]]
-Header
-~~~~~~
+=== 標頭(Header) ===
 The Header contains a document title plus optional authorship and
 revision information:
 
@@ -276,7 +240,7 @@ revision information:
 - The document header must be separated from the remainder of the
   document by one or more blank lines.
 
-Here's an example AsciiDoc document header:
+這邊我們用一個例子來看一下AsciiDoc文件的標頭：
 
   Writing Documentation using AsciiDoc
   ====================================
@@ -382,13 +346,11 @@ DocBook::
 
 
 [[X86]]
-Preamble
-~~~~~~~~
-The Preamble is an optional untitled section body between the document
-Header and the first Section title.
+=== 前言、序文(Preamble) ===
+前文(或序文)是一個不需要標題的段落，位於文件標頭跟第一個分段的標題之間。
+前文(或序文)可有可無，沒有也沒關系。
 
-Sections
-~~~~~~~~
+=== 分段(Sections) ===
 In addition to the document title (level 0), AsciiDoc supports four
 section levels: 1 (top) to 4 (bottom).  Section levels are delimited
 by section <<X17,titles>>.  Sections are translated using
