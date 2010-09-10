@@ -109,7 +109,7 @@ AsciiDoc定義了標準DocBook文件用的前頁(frontmatter)及後頁(backmatte
   請參考AsciiDoc釋出版中的 `./doc/book.txt` 文件。
 
 
-Multi-part book::
+分部書籍(Multi-part book)::
   請參考AsciiDoc釋出版中的 `./doc/book-multi.txt` 文件。
 
 === manpage ===
@@ -250,24 +250,20 @@ footnote:[這只是一個大概的概覽，並不是一個嚴謹的語法定義]
 
   firstname[ [middlename ]lastname][ <email>]]
 
-i.e. a first name followed by optional middle and last names followed
-by an email address in that order.  Multi-word first, middle and last
-names can be entered using the underscore as a word separator.  The
-email address comes last and must be enclosed in angle <> brackets.
-Here a some examples of author information lines:
+舉例來說，擺放的順序是這樣，名字的後面接著是中間名(可有可無)在來是姓在來是電郵位址。
+若是名字、中間名、姓由多個字組成，可用底線字元把字與字之間隔開。電郵位址放在最後面
+必須以方框號<>隔開。
+下面有一些作者資訊列的範例：
 
   Joe Bloggs <jbloggs@mymail.com>
   Joe Bloggs
   Vincent Willem van_Gogh
 
-If the author line does not match the above specification then the
-entire author line is treated as the first name.
+若是作者資訊列的格式並不符合上述格式則整列都會視為作者的名字
 
-The optional revision information line follows the author information
-line. The revision information can be one of two formats:
+文件版本號列(可有可無)跟在作者資訊列之後，可以是下列兩種格式之一：
 
-. An optional document revision number followed by an optional
-  revision date followed by an optional revision remark:
+. 一個文件版本號，後面跟著一個修訂日期，然後是修訂備注(這三個資訊都可有可無)：
 
   * If the revision number is specified it must be followed by a
     comma.
@@ -285,7 +281,7 @@ line. The revision information can be one of two formats:
 . An RCS/CVS/SVN $Id$ marker (if an $Id$ revision marker is used the
   header author line can be omitted).
 
-Here a some examples of header revision lines:
+下面列出一些標頭的文件版本號列：
 
   v2.0, February 2003
   February 2003
@@ -295,10 +291,9 @@ Here a some examples of header revision lines:
   v2.0,: Rewritten for version 2 release.
   :Rewritten for version 2 release.
 
-You can override or set header parameters by passing 'revnumber',
-'revremark', 'revdate', 'email', 'author', 'authorinitials',
-'firstname' and 'lastname' attributes using the asciidoc(1) `-a`
-(`--attribute`) command-line option. For example:
+你可以在下Asciidoc(1)命令時使用 `-a` (`--attribute`)這個命令列選項，在此選項之後帶入
+'revnumber','revremark', 'revdate', 'email', 'author', 'authorinitials','firstname' 
+及 'lastname' 這些屬性，可以覆寫掉原本的設定值。舉例來說：
 
   $ asciidoc -a revdate=2004/07/27 article.txt
 
@@ -346,7 +341,7 @@ DocBook::
 前文(或序文)是一個不需要標題的段落，位於文件標頭跟第一個分段的標題之間。
 前文(或序文)可有可無，沒有也沒關系。
 
-=== 分段(Sections) ===
+=== 區段(Sections) ===
 In addition to the document title (level 0), AsciiDoc supports four
 section levels: 1 (top) to 4 (bottom).  Section levels are delimited
 by section <<X17,titles>>.  Sections are translated using
@@ -433,8 +428,7 @@ Section ID synthesis can be disabled by undefining the `sectids`
 attribute.
 
 [[X16]]
-Special Section Titles
-^^^^^^^^^^^^^^^^^^^^^^
+==== 特殊區段標題 ====
 AsciiDoc has a mechanism for mapping predefined section titles
 auto-magically to specific markup templates. For example a title
 'Appendix A: Code Reference' will automatically use the 'appendix'
@@ -482,8 +476,7 @@ backward compatibility.
 
 *********************************************************************
 
-Inline Elements
-~~~~~~~~~~~~~~~
+=== Inline Elements
 <<X34,Inline document elements>> are used to format text and to
 perform various types of text substitution. Inline elements and inline
 element syntax is defined in the asciidoc(1) configuration files.
@@ -519,17 +512,13 @@ Inline Macros::
         configuration file sections.
 
 
-Document Processing
--------------------
-The AsciiDoc source document is read and processed as follows:
+== 文件處理 ==
+AsciiDoc源碼文件如何被讀入及處理，將有下列步驟：
 
-1. The document 'Header' is parsed, header parameter values are
-   substituted into the configuration file `[header]` template section
-   which is then written to the output file.
-2. Each document 'Section' is processed and its constituent elements
-   translated to the output file.
-3. The configuration file `[footer]` template section is substituted
-   and written to the output file.
+1. 首先解析文件的 '標頭(Header)' ， 標頭內的參數值會把組態檔中 `[header]` 範本中
+   的值給取代掉，因為這些值才是之後真正在輸出檔中的值。 
+2. 接著每一個文件的 '分段(Section)' 都會被處理，把其構成要素轉譯到輸出檔中。
+3. 最後，組態檔中 `[footer]` 範本段會被取代掉然後寫入輸出檔中。
 
 When a block element is encountered asciidoc(1) determines the type of
 block by checking in the following order (first to last): (section)
@@ -539,30 +528,27 @@ AttributeLists, BlockTitles, Paragraphs.
 The default paragraph definition `[paradef-default]` is last element
 to be checked.
 
-Knowing the parsing order will help you devise unambiguous macro, list
-and block syntax rules.
+了解文件解析的順序會幫助你設計出正確(不會模擬兩可)的巨集、列表跟區塊的語法
+規則。
 
-Inline substitutions within block elements are performed in the
-following default order:
+在塊狀元素裡面進行每一列的替換，會用下列預設的順序來替換：
 
-1. Special characters
-2. Quotes
-3. Special words
-4. Replacements
-5. Attributes
-6. Inline Macros
-7. Replacements2
+1. 特殊字元(Special characters)
+2. 引言(Quotes)
+3. 特殊字(Special words)
+4. 替換文字(Replacements)
+5. 屬性(Attributes)
+6. 列內巨集(Inline Macros)
+7. 替換文字2(Replacements2)
 
 The substitutions and substitution order performed on
 Title, Paragraph and DelimitedBlock elements is determined by
 configuration file parameters.
 
 
-Text Formatting
----------------
+== 文字格式 ==
 [[X51]]
-Quoted Text
-~~~~~~~~~~~
+=== 引用文字(Quoted text) ===
 Words and phrases can be formatted by enclosing inline text with
 quote characters:
 
@@ -666,8 +652,7 @@ The following example emboldens the letter F:
 
   **F**ile Open...
 
-Superscripts and Subscripts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Superscripts and Subscripts
 Put \^carets on either^ side of the text to be superscripted, put
 \~tildes on either side~ of text to be subscripted.  For example, the
 following line:
@@ -684,16 +669,14 @@ Superscripts and subscripts are implemented as <<X52,unconstrained
 quotes>> and they can be escaped with a leading backslash and prefixed
 with with an attribute list.
 
-Line Breaks
-~~~~~~~~~~~
+=== Line Breaks
 A plus character preceded by at least one space character at the end
 of a non-blank line forces a line break. It generates a line break
 (`br`) tag for HTML outputs and a custom XML `asciidoc-br` processing
 instruction for DocBook outputs. The `asciidoc-br` processing
 instruction is handled by <<X43,a2x(1)>>.
 
-Page Breaks
-~~~~~~~~~~~
+=== Page Breaks
 A line of three or more less-than (`<<<`) characters will generate a
 hard page break in DocBook and printed HTML outputs.  It uses the CSS
 `page-break-after` property for HTML outputs and a custom XML
@@ -702,78 +685,63 @@ hard page break in DocBook and printed HTML outputs.  It uses the CSS
 <<X43,a2x(1)>>. Hard page breaks are sometimes handy but as a general
 rule you should let your page processor generate page breaks for you.
 
-Rulers
-~~~~~~
-A line of three or more apostrophe characters will generate a ruler
-line.  It generates a ruler (`hr`) tag for HTML outputs and a custom
-XML `asciidoc-hr` processing instruction for DocBook outputs. The
-`asciidoc-hr` processing instruction is handled by <<X43,a2x(1)>>.
+=== 尺規(Rulers) ===
+一個由三個以上撇號字元(也有人翻成省略符號，apostrophe)以上所組成的列將產生
+一個尺規列。若是輸出成HTML則一個尺規列將產生(`hr`) tag。輸出成DocBook的話會用 outputs and a custom
+一個客製化的XML `asciidoc-hr` 處理指令來處理。 `asciidoc-hr` 處理指令將由<<X43,a2x(1)>>執行。
 
-Tabs
-~~~~
-By default tab characters input files will translated to 8 spaces. Tab
-expansion is set with the 'tabsize' entry in the configuration file
-`[miscellaneous]` section and can be overridden in included files by
-setting a 'tabsize' attribute in the `include` macro's attribute list.
-For example:
+=== 跳格(Tabs) ===
+在預設的情況下，跳格字元會被轉譯成8個空白字元。你可以在組態檔的 
+`[miscellaneous]` 段中設定 'tabsize' 這個項目，來決定跳格字元擴展的大小。
+不過這個值可以在使用 `include` 巨集的屬性列表有 'tabsize' 屬性時被覆寫。
+舉例如下：
 
   include::addendum.txt[tabsize=2]
 
-The tab size can also be set using the attribute command-line option,
-for example `--attribute tabsize=4`
+跳格字元要表示幾個空白的大小也可以使用命令列選項來指定，例如
+`--attribute tabsize=4` 。
 
-Replacements
-~~~~~~~~~~~~
-The following replacements are defined in the default AsciiDoc
-configuration:
+=== 替換文字(Replacements) ===
+下列的替換文字已經定義在AsciiDoc預設的組態中：
 
-  (C) copyright, (TM) trademark, (R) registered trademark,
-  -- em dash, ... ellipsis, -> right arrow, <- left arrow, => right
-  double arrow, <= left double arrow.
+  (C) 版權所有， (TM) 商標， (R) 註冊商標， -- 強調用的破折號， 
+  ... 省略符號， -> 右箭頭， <- 左箭頭，  => 雙槓右箭頭，  <= 雙槓右箭頭。
 
-Which are rendered as:
+輸出後看起來是這樣：
 
-(C) copyright, (TM) trademark, (R) registered trademark,
--- em dash, ... ellipsis, -> right arrow, <- left arrow, => right
-double arrow, <= left double arrow.
+(C) 版權所有， (TM) 商標， (R) 註冊商標， -- 強調用的破折號， 
+... 省略符號， -> 右箭頭， <- 左箭頭，  => 雙槓右箭頭，  <= 雙槓左箭頭。
 
 You can also include arbitrary entity references in the AsciiDoc
 source. Examples:
 
   &#x278a; &#182;
 
-renders:
+會輸出成：
 
 &#x278a; &#182;
 
-To render a replacement literally escape it with a leading back-slash.
+如果要讓這個替換文字照著字面輸出，請在前面加上back-slash來跳脫。
 
-The <<X7,Configuration Files>> section explains how to configure your
-own replacements.
+在<<X7,組態檔>>這裡會說明如何設定你自己的替換文字。
 
-Special Words
-~~~~~~~~~~~~~
-Words defined in `[specialwords]` configuration file sections are
-automatically marked up without having to be explicitly notated.
+=== 特殊字(Special Words) ===
+在組態檔中的 `[specialwords]` 段定義了一些特別的字，這些字會自動被標記，而不用
+特別作記號。
 
-The <<X7,Configuration Files>> section explains how to add and replace
-special words.
+在<<X7,組態檔>>中會說明如何增加或換掉特殊字。
 
 
 [[X17]]
-Titles
-------
-Document and section titles can be in either of two formats:
+== 標題 ==
+文件標題(Document title)及區段標題(Section title)可以是下列兩種格式之一：
 
-雙行式標題Two line titles
-~~~~~~~~~~~~~~~
-A two line title consists of a title line, starting hard against the
-left margin, and an underline. Section underlines consist a repeated
-character pairs spanning the width of the preceding title (give or
-take up to two characters):
+=== 雙列式標題 ===
+一個雙列式標題由一個標題列和一個底線列所組成(從一列的最左邊開始)。底
+線列由一連串連續字元所組成其長度與其上的標題列等長(或更長)，不過至少
+都要2 個字元。
 
-The default title underlines for each of the document levels are:
-
+預設的底線列所對應的文件階層如下：
 
   Level 0 (top level):     ======================
   Level 1:                 ----------------------
@@ -790,11 +758,10 @@ The default title underlines for each of the document levels are:
   ~~~~~~~~~~~~~~~~~~~~~~~~
 
 [[X46]]
-單行式標題One line titles
-~~~~~~~~~~~~~~~
-One line titles consist of a single line delimited on either side by
-one or more equals characters (the number of equals characters
-corresponds to the section level minus one).  Here are some examples:
+=== 單列式標題 ===
+單列式標題也就是由一列標題所組成。不過在標題的兩端有相同長度(
+不同的長度反應出文件的不同階層)的等號字元(稱之為分隔符號)，下面有
+一些例子：
 
   = Document Title (level 0) =
   == Section title (level 1) ==
@@ -804,14 +771,13 @@ corresponds to the section level minus one).  Here are some examples:
 
 [NOTE]
 =====================================================================
-- One or more spaces must fall between the title and the delimiters.
-- The trailing title delimiter is optional.
-- The one-line title syntax can be changed by editing the
-  configuration file `[titles]` section `sect0`...`sect4` entries.
+- 標題本身和分隔符號之間至少要有一個空格。
+- 最右邊的分隔符號可有可無。
+- 單列式標題的語法可以透過組態檔進行變更。(編輯組態檔中 
+  `[titles]` 段的 `sect0`...`sect4` 項目)
 =====================================================================
 
-浮動式標題Floating titles
-~~~~~~~~~~~~~~~
+=== 浮動式標題 ===
 Setting the title's first positional attribute or 'style' attribute to
 'float' generates a free-floating title. A free-floating title is
 rendered just like a normal section title but is not formally
@@ -824,24 +790,33 @@ example sidebar and admonition blocks.  Example:
   The second day
   ~~~~~~~~~~~~~~
 
-Floating titles do not appear in a document's table of contents.
+浮動式標題並不會出現在文件目錄中。
 
 
 [[X42]]
-Block Titles
-------------
+== 區塊標題 ==
+一個 '區塊標題(BlockId)' 是由一個句號開頭的標題文字。通常會用在文章的一段之後
+，或是分隔區塊、列表、表格、區塊巨集之後。下面這個例子：
 A 'BlockTitle' element is a single line beginning with a period
 followed by the title text. A BlockTitle is applied to the immediately
 following Paragraph, DelimitedBlock, List, Table or BlockMacro. For
 example:
 
 ........................
+.注意事項
+- 注意事項1。
+- 注意事項2。
+
 .Notes
 - Note 1.
 - Note 2.
 ........................
 
-is rendered as:
+會顯示成這個樣子：
+
+.注意事項
+- 注意事項1。
+- 注意事項2。
 
 .Notes
 - Note 1.
@@ -849,8 +824,7 @@ is rendered as:
 
 
 [[X41]]
-BlockId Element
----------------
+== BlockId Element
 A 'BlockId' is a single line block element containing a unique
 identifier enclosed in double square brackets. It is used to assign an
 identifier to the ensuing block element. For example:
@@ -873,8 +847,7 @@ The 'BlockId' element has the same syntax and serves the same function
 to the <<X30,anchor inline macro>>.
 
 [[X79]]
-AttributeList Element
----------------------
+== AttributeList Element
 An 'AttributeList' block element is an <<X21,attribute list>> on a
 line by itself:
 
@@ -886,8 +859,7 @@ line by itself:
 - The first positional attribute in the list is often used to specify
   the ensuing element's <<X23,style>>.
 
-Attribute value substitution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Attribute value substitution
 By default, only substitutions that take place inside attribute list
 values are attribute references, this is because not all attributes
 are destined to be marked up and rendered as text (for example the
@@ -905,8 +877,7 @@ is not done well; but you are surprised to find it done at all.
 _____________________________________________________________________
 ---------------------------------------------------------------------
 
-Common attributes
-~~~~~~~~~~~~~~~~~
+=== Common attributes
 Most block elements support the following attributes:
 
 [cols="1e,1,5a",frame="topbot",options="header"]
@@ -935,8 +906,7 @@ The 'reftext' attribute can an also be set by the 'BlockId' element.
 |====================================================================
 
 
-Paragraphs
-----------
+== Paragraphs
 Paragraphs are blocks of text terminated by a blank line, the end of
 file, or the start of a DelimitedBlock.  Paragraph markup is specified
 by configuration file `[paradef-*]` sections.
@@ -948,8 +918,7 @@ paragraph of text. 'literal' and 'verse' paragraph styles are
 available (in addition to the 'default' paragraph style).
 
 [[X85]]
-literal paragraph style
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== literal paragraph style
 Literal paragraphs are rendered verbatim in a monospaced font without
 any distinguishing background or border.  By default there is no text
 formatting or substitutions within Literal paragraphs apart from
@@ -993,8 +962,7 @@ consetetur, eu pro everti postulant
 homero verear ea mea, qui.
 
 [[X94]]
-verse paragraph style
-~~~~~~~~~~~~~~~~~~~~~
+=== verse paragraph style
 The 'verse' paragraph <<X23,style>> preserves line boundaries and is
 useful for lyrics and poems.  For example:
 
@@ -1013,8 +981,7 @@ consetetur, eu pro everti postulant
 homero verear ea mea, qui.
 
 [[X28]]
-Admonition Paragraphs
-~~~~~~~~~~~~~~~~~~~~~
+=== Admonition Paragraphs
 'TIP', 'NOTE', 'IMPORTANT', 'WARNING' and 'CAUTION' admonishment
 paragraph styles are generated by placing `NOTE:`, `TIP:`,
 `IMPORTANT:`, `WARNING:` or `CAUTION:` as the first word of the
@@ -1070,15 +1037,13 @@ if <<X45,admonition icons>> have been enabled):
 This subsection also applies to <<X22,Admonition Blocks>>.
 
 
-Delimited Blocks
-----------------
+== Delimited Blocks
 Delimited blocks are blocks of text enveloped by leading and trailing
 delimiter lines (normally a series of four or more repeated
 characters). The behavior of Delimited Blocks is specified by entries
 in configuration file `[blockdef-*]` sections.
 
-Predefined Delimited Blocks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Predefined Delimited Blocks
 AsciiDoc ships with a number of predefined DelimitedBlocks (see the
 `asciidoc.conf` configuration file in the asciidoc(1) program
 directory):
@@ -1112,15 +1077,14 @@ detailed in the <<X59,Filters>> section.
 |OpenBlock        |Yes |No  |Yes |Yes |Yes |Yes |Yes
 |=====================================================
 
-Listing Blocks
-~~~~~~~~~~~~~~
+=== Listing Blocks
 'ListingBlocks' are rendered verbatim in a monospaced font, they
 retain line and whitespace formatting and are often distinguished by a
 background or border. There is no text formatting or substitutions
 within Listing blocks apart from Special Characters and Callouts.
 Listing blocks are often used for computer output and file listings.
 
-Here's an example:
+我們來看一個例子：
 
 [listing]
 ......................................
@@ -1134,7 +1098,7 @@ int main() {
 --------------------------------------
 ......................................
 
-Which will be rendered like:
+輸出後：
 
 --------------------------------------
 #include <stdio.h>
@@ -1149,8 +1113,7 @@ By convention <<X59,filter blocks>> use the listing block syntax and
 are implemented as distinct listing block styles.
 
 [[X65]]
-Literal Blocks
-~~~~~~~~~~~~~~
+=== Literal Blocks
 'LiteralBlocks' are rendered just like <<X85,literal paragraphs>>.
 Example:
 
@@ -1173,27 +1136,26 @@ If the 'listing' style is applied to a LiteralBlock it will be
 rendered as a ListingBlock (this is handy if you have a listing
 containing a ListingBlock).
 
-Sidebar Blocks
-~~~~~~~~~~~~~~
+=== Sidebar Blocks ===
 A sidebar is a short piece of text presented outside the narrative
 flow of the main text. The sidebar is normally presented inside a
 bordered box to set it apart from the main text.
 
 The sidebar body is treated like a normal section body.
 
-Here's an example:
+我們來看一個例子：
 
 ---------------------------------------------------------------------
-.An Example Sidebar
+.一個邊欄範例
 ************************************************
 Any AsciiDoc SectionBody element (apart from
 SidebarBlocks) can be placed inside a sidebar.
 ************************************************
 ---------------------------------------------------------------------
 
-Which will be rendered like:
+輸出後：
 
-.An Example Sidebar
+.一個邊欄範例
 ************************************************
 Any AsciiDoc SectionBody element (apart from
 SidebarBlocks) can be placed inside a sidebar.
@@ -1209,8 +1171,7 @@ In this paper we will ...
 ---------------------------------------------------------------------
 
 [[X26]]
-Comment Blocks
-~~~~~~~~~~~~~~
+=== Comment Blocks
 The contents of 'CommentBlocks' are not processed; they are useful for
 annotations and for excluding new or outdated content that you don't
 want displayed. CommentBlocks are never written to output files.
@@ -1228,8 +1189,7 @@ See also <<X25,Comment Lines>>.
 NOTE: System macros are executed inside comment blocks.
 
 [[X76]]
-Passthrough Blocks
-~~~~~~~~~~~~~~~~~~
+=== Passthrough Blocks
 By default the block contents is subject only to 'attributes' and
 'macros' substitutions (use an explicit 'subs' attribute to apply
 different substitutions).  PassthroughBlock content will often be
@@ -1254,8 +1214,7 @@ asciimath, latexmath::
   By default no substitutions are performed, the contents are rendered
   as <<X78,mathematical formulas>>.
 
-Quote Blocks
-~~~~~~~~~~~~
+=== Quote Blocks
 'QuoteBlocks' are used for quoted passages of text. There are two
 styles: 'quote' and 'verse'. The style is set by the first positional
 attribute, if no style attribute is specified the 'quote' style.  The
@@ -1304,8 +1263,7 @@ And eternity in an hour.
 __________________________________________________
 
 [[X48]]
-Example Blocks
-~~~~~~~~~~~~~~
+=== Example Blocks
 'ExampleBlocks' encapsulate the DocBook Example element and are used
 for, well, examples.  Example blocks can be titled by preceding them
 with a 'BlockTitle'.  DocBook toolchains will normally automatically
@@ -1344,8 +1302,7 @@ adolescens.
 ---------------------------------------------------------------------
 
 [[X22]]
-Admonition Blocks
-~~~~~~~~~~~~~~~~~
+=== Admonition Blocks
 The 'ExampleBlock' definition includes a set of admonition
 <<X23,styles>> ('NOTE', 'TIP', 'IMPORTANT', 'WARNING', 'CAUTION') for
 generating admonition blocks (admonitions containing more than a
@@ -1387,8 +1344,7 @@ adolescens.
 See also <<X47,Admonition Icons and Captions>>.
 
 [[X29]]
-Open Blocks
-~~~~~~~~~~~
+=== Open Blocks
 An 'OpenBlock' renders the block contents without any opening or
 closing tags. The open block start and end delimiter is a single line
 containing two dashes. Enclosed elements are rendered just as they
@@ -1419,8 +1375,7 @@ Lists
   is the number of items in the most recently closed list. Useful for
   displaying the number of items in a list.
 
-Bulleted Lists
-~~~~~~~~~~~~~~
+=== Bulleted Lists
 Bulleted list items start with a single dash or one to five asterisks
 followed by some white space then some text. Bulleted list syntaxes
 are:
@@ -1434,8 +1389,7 @@ are:
 ***** List item.
 ...................
 
-Numbered Lists
-~~~~~~~~~~~~~~
+=== Numbered Lists
 List item numbers are explicit or implicit.
 
 .Explicit numbering
@@ -1541,8 +1495,7 @@ TIP: To apply the 'compact' option globally define a document-wide
 'compact-option' attribute, e.g. using the `-a compact-option`
 command-line option.
 
-Labeled Lists
-~~~~~~~~~~~~~
+=== Labeled Lists
 Labeled list items consist of one or more text labels followed by the
 text of the list item.
 
@@ -1652,8 +1605,7 @@ labitur dolorum an. Est ne magna primis adolescens.
   setting the 'width' attribute e.g. `width="10%"`
 =====================================================================
 
-Question and Answer Lists
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Question and Answer Lists
 AsciiDoc comes pre-configured with a 'qanda' style labeled list for generating
 DocBook question and answer (Q&A) lists. Example:
 
@@ -1673,8 +1625,7 @@ Question one::
 Question two::
         Answer two.
 
-Glossary Lists
-~~~~~~~~~~~~~~
+=== Glossary Lists
 AsciiDoc comes pre-configured with a 'glossary' style labeled list for
 generating DocBook glossary lists. Example:
 
@@ -1692,8 +1643,7 @@ the AsciiDoc `./doc` distribution directory.
 NOTE: To generate valid DocBook output glossary lists must be located
 in a section that uses the 'glossary' <<X93,section markup template>>.
 
-Bibliography Lists
-~~~~~~~~~~~~~~~~~~
+=== Bibliography Lists
 AsciiDoc comes with a predefined 'bibliography' bulleted list style
 generating DocBook bibliography entries. Example:
 
@@ -1721,8 +1671,7 @@ NOTE: To generate valid DocBook output bibliography lists must be
 located in a <<X93,bibliography section>>.
 
 [[X15]]
-List Item Continuation
-~~~~~~~~~~~~~~~~~~~~~~
+=== List Item Continuation
 Another list or a literal paragraph immediately following a list item
 is implicitly appended to the list item; to append other block
 elements to a list item you need to explicitly join them to the list
@@ -1793,8 +1742,7 @@ This paragraph belongs to item two of the outer list.
 
 
 [[X92]]
-Footnotes
----------
+== Footnotes
 The shipped AsciiDoc configuration includes three footnote inline
 macros:
 
@@ -1826,8 +1774,7 @@ a second footnote with a reference ID footnoteref:[note2,Second footnote.];
 finally a reference to the second footnote footnoteref:[note2].
 
 
-Indexes
--------
+== Indexes
 The shipped AsciiDoc configuration includes the inline macros for
 generating DocBook index entries.
 
@@ -1855,8 +1802,7 @@ DocBook markup -- DocBook conversion programs automatically generate
 an index at the point an 'Index' section appears in source document.
 
 
-Callouts
---------
+== Callouts
 Callouts are a mechanism for annotating verbatim text (for example:
 source code, computer output and user input). Callout markers are
 placed inside the annotated text while the actual annotations are
@@ -1925,8 +1871,7 @@ Which renders:
 NOTE: Define the AsciiDoc 'icons' attribute (for example using the `-a
 icons` command-line option) to display callout icons.
 
-Implementation Notes
-~~~~~~~~~~~~~~~~~~~~
+=== Implementation Notes
 Callout marks are generated by the 'callout' inline macro while
 callout lists are generated using the 'callout' list definition. The
 'callout' macro and 'callout' list are special in that they work
@@ -1949,8 +1894,7 @@ The `{coids}` attribute can be used during callout list item
 substitution -- it is a space delimited list of callout IDs that refer
 to the explanatory list item.
 
-Including callouts in included code
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Including callouts in included code
 You can annotate working code examples with callouts -- just remember
 to put the callouts inside source code comments. This example displays
 the `test.py` source file (containing a single callout) using the
@@ -1972,8 +1916,7 @@ print 'Hello World!'   # \<1>
 ---------------------------------------------------------------------
 
 
-Macros
-------
+== Macros
 Macros are a mechanism for substituting parametrized text into output
 documents.
 
@@ -2009,8 +1952,7 @@ macros).  Here are some examples:
   <<X77,passthrough macros>>. A macro is a passthrough macro if the
   definition includes a `<passtext>` named group.
 
-Inline Macros
-~~~~~~~~~~~~~
+=== Inline Macros
 Inline Macros occur in an inline element context. Predefined Inline
 macros include 'URLs', 'image' and 'link' macros.
 
@@ -2185,8 +2127,7 @@ Comment Lines
 ^^^^^^^^^^^^^
 See <<X25,comment block macro>>.
 
-Block Macros
-~~~~~~~~~~~~
+=== Block Macros
 A Block macro reference must be contained in a single line separated
 either side by a blank line or a block delimiter.
 
@@ -2284,8 +2225,7 @@ to the output:
 - The 'showcomments' attribute does not expose <<X26,Comment Blocks>>.
   Comment Blocks are never passed to the output.
 
-System Macros
-~~~~~~~~~~~~~
+=== System Macros
 System macros are block macros that perform a predefined task and are
 hardwired into the asciidoc(1) program.
 
@@ -2447,8 +2387,7 @@ section:
 
 
 [[X77]]
-Passthrough macros
-~~~~~~~~~~~~~~~~~~
+=== Passthrough macros
 Passthrough macros are analogous to <<X76,passthrough blocks>> and are
 used to pass text directly to the output. The substitution performed
 on the text is determined by the macro definition but can be overridden
@@ -2491,8 +2430,7 @@ $$::
   be escaped. If you need monospaced text containing inline
   substitutions use a <<X81,plus character instead of a backtick>>.
 
-Macro Definitions
-~~~~~~~~~~~~~~~~~
+=== Macro Definitions
 Each entry in the configuration `[macros]` section is a macro
 definition which can take one of the following forms:
 
@@ -2543,8 +2481,7 @@ subslist::
   document.
 
 
-Tables
-------
+== Tables
 The AsciiDoc table syntax looks and behaves like other delimited block
 types and supports standard <<X73,block configuration entries>>.
 Formatting is easy to read and, just as importantly, easy to enter.
@@ -2572,8 +2509,7 @@ Tables are designed for, and should normally only be used for,
 displaying column oriented tabular data.
 *********************************************************************
 
-Example tables
-~~~~~~~~~~~~~~
+=== Example tables
 
 .Simple table
 [width="15%"]
@@ -2699,8 +2635,7 @@ ID,Customer Name,Contact Name,Customer Address,Phone
 ---------------------------------------------------------------------
 
 [[X68]]
-Table input data formats
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Table input data formats
 AsciiDoc table data can be 'psv', 'dsv' or 'csv' formatted.  The
 default table format is 'psv'.
 
@@ -2728,8 +2663,7 @@ last contains an escaped separator):
 database data.
 
 [[X69]]
-Table attributes
-~~~~~~~~~~~~~~~~
+=== Table attributes
 Tables can be customized by the following attributes:
 
 format::
@@ -2828,8 +2762,7 @@ To generate DocBook tables with absolute column widths set the
 **********************************************************************
 
 [[X70]]
-Column Specifiers
-~~~~~~~~~~~~~~~~~
+=== Column Specifiers
 Column specifiers define how columns are rendered and appear in the
 table <<X69,cols attribute>>.  A column specifier consists of an
 optional column multiplier followed by optional alignment, width and
@@ -2863,8 +2796,7 @@ alignment respectively.
 - Column specific styles are not applied to header rows.
 
 [[X84]]
-Cell Specifiers
-~~~~~~~~~~~~~~~
+=== Cell Specifiers
 Cell specifiers allow individual cells in 'psv' formatted tables to be
 spanned, multiplied, aligned and styled.  Cell specifiers prefix 'psv'
 `|` delimiters and are formatted like:
@@ -2890,8 +2822,7 @@ and the text will be centered and emphasized:
   `2+^e| Cell text`
 
 [[X71]]
-Table styles
-~~~~~~~~~~~~
+=== Table styles
 Table styles can be applied to the entire table (by setting the
 'style' attribute in the table's attribute list) or on a per column
 basis (by specifying the style in the table's <<X69,cols attribute>>).
@@ -2929,8 +2860,7 @@ All line breaks are retained (the same as the AsciiDoc <<X94,verse
 paragraph style>>).
 
 [[X72]]
-Markup attributes
-~~~~~~~~~~~~~~~~~
+=== Markup attributes
 AsciiDoc makes a number of attributes available to table markup
 templates and tags. Column specific attributes are available when
 substituting the 'colspec' cell data tags.
@@ -2987,16 +2917,14 @@ Number of rows the cell should span (1...).
 morerows::
 Number of additional rows the cell should span (0...).
 
-Nested tables
-~~~~~~~~~~~~~
+=== Nested tables
 An alternative 'psv' separator character '!' can be used (instead of
 '|') in nested tables. This allows a single level of table nesting.
 Columns containing nested tables must use the 'asciidoc' style. An
 example can be found in `./examples/website/newtables.txt`.
 
 [[X83]]
-DocBook table limitations
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== DocBook table limitations
 Fully implementing tables is not trivial, some DocBook toolchains do
 better than others.  AsciiDoc HTML table outputs are rendered
 correctly in all the popular browsers -- if your DocBook generated
@@ -3030,8 +2958,7 @@ NOTE: Technically you can nest DocBook 4 tables one level using the
 
 
 [[X1]]
-Manpage Documents
------------------
+== Manpage Documents
 Sooner or later, if you program in a UNIX environment, you're going
 to have to write a man page.
 
@@ -3067,16 +2994,14 @@ To find out more about man pages view the `man(7)` manpage
 (`man 7 man` and `man man-pages` commands).
 
 
-Document Header
-~~~~~~~~~~~~~~~
+=== Document Header
 A manpage document Header is mandatory. The title line contains the
 man page name followed immediately by the manual section number in
 brackets, for example 'ASCIIDOC(1)'. The title name should not contain
 white space and the manual section number is a single digit optionally
 followed by a single character.
 
-The NAME Section
-~~~~~~~~~~~~~~~~
+=== The NAME Section
 The first manpage section is mandatory, must be titled 'NAME' and must
 contain a single paragraph (usually a single line) consisting of a
 list of one or more comma separated command name(s) separated from the
@@ -3085,12 +3010,10 @@ white space character on either side. For example:
 
   printf, fprintf, sprintf - print formatted output
 
-The SYNOPSIS Section
-~~~~~~~~~~~~~~~~~~~~
+=== The SYNOPSIS Section
 The second manpage section is mandatory and must be titled 'SYNOPSIS'.
 
-refmiscinfo attributes
-~~~~~~~~~~~~~~~~~~~~~~
+=== refmiscinfo attributes
 In addition to the automatically created man page <<X60,intrinsic
 attributes>> you can assign DocBook
 http://www.docbook.org/tdg5/en/html/refmiscinfo.html[refmiscinfo]
@@ -3105,8 +3028,7 @@ source file:
 
 
 [[X78]]
-Mathematical Formulas
----------------------
+== Mathematical Formulas
 The 'asciimath' and 'latexmath' <<X77,passthrough macros>> along with
 'asciimath' and 'latexmath'  <<X76,passthrough blocks>> provide a
 (backend dependent) mechanism for rendering mathematical formulas. You
@@ -3119,8 +3041,7 @@ outputs that are processed by <<X31,dblatex>> and is normally used to
 generate PDF files.  'LaTeXMathML' is very much a subset of 'LaTeX
 Math' and applies to XHTML documents.
 
-LaTeX Math
-~~~~~~~~~~
+=== LaTeX Math
 ftp://ftp.ams.org/pub/tex/doc/amsmath/short-math-guide.pdf[LaTeX
 math] can be included in documents that are processed by
 <<X31,dblatex(1)>>.  Example inline formula:
@@ -3130,8 +3051,7 @@ math] can be included in documents that are processed by
 For more examples see the http://www.methods.co.nz/asciidoc/[AsciiDoc
 website] or the distributed `doc/latexmath.txt` file.
 
-ASCIIMathML
-~~~~~~~~~~~
+=== ASCIIMathML
 /////////////////////////////////////////////////////////////////////
 The older ASCIIMathML 1.47 version is used instead of version 2
 because:
@@ -3151,8 +3071,7 @@ command-line option.  Example inline formula:
 For more examples see the http://www.methods.co.nz/asciidoc/[AsciiDoc
 website] or the distributed `doc/asciimathml.txt` file.
 
-LaTeXMathML
-~~~~~~~~~~~
+=== LaTeXMathML
 /////////////////////////////////////////////////////////////////////
 There is an http://math.etsu.edu/LaTeXMathML/[extended LaTeXMathML
 version] by Jeff Knisley, in addition to a JavaScript file it requires
@@ -3179,8 +3098,7 @@ website] or the distributed `doc/latexmathml.txt` file.
 There are more examples on the
 http://www.methods.co.nz/asciidoc/[AsciiDoc website].
 
-MathML
-~~~~~~
+=== MathML
 http://www.w3.org/Math/[MathML] is a low level XML markup for
 mathematics. AsciiDoc has no macros for MathML but users familiar with
 this markup could use passthrough macros and passthrough blocks to
@@ -3188,15 +3106,13 @@ include MathML in output documents.
 
 
 [[X7]]
-Configuration Files
--------------------
+== Configuration Files
 AsciiDoc source file syntax and output file markup is largely
 controlled by a set of cascading, text based, configuration files.  At
 runtime The AsciiDoc default configuration files are combined with
 optional user and document specific configuration files.
 
-Configuration File Format
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Configuration File Format
 Configuration files contain named sections. Each section begins with a
 section name in square brackets []. The section body consists of the
 lines of text between adjacent section headings.
@@ -3279,8 +3195,7 @@ name!::
   template sections).
 
 
-Miscellaneous section
-~~~~~~~~~~~~~~~~~~~~~
+=== Miscellaneous section
 The optional `[miscellaneous]` section specifies the following
 `name=value` options:
 
@@ -3308,8 +3223,7 @@ pagewidth, pageunits::
 NOTE: `[miscellaneous]` configuration file entries can be set using
 the asciidoc(1) `-a` (`--attribute`) command-line option.
 
-Titles section
-~~~~~~~~~~~~~~
+=== Titles section
 sectiontitle::
         Two line section title pattern. The entry value is a Python
         regular expression containing the named group 'title'.
@@ -3334,8 +3248,7 @@ subs::
         the document header and section titles. Defaults to 'normal'
         substitution.
 
-Tags section
-~~~~~~~~~~~~
+=== Tags section
 The `[tags]` section contains backend tag definitions (one per
 line). Tags are used to translate AsciiDoc elements to backend
 markup.
@@ -3352,8 +3265,7 @@ the output file.
 Use the `{brvbar}` attribute reference if you need to include a | pipe
 character inside tag text.
 
-Attributes section
-~~~~~~~~~~~~~~~~~~
+=== Attributes section
 The optional `[attributes]` section contains predefined attributes.
 
 If the attribute value requires leading or trailing spaces then the
@@ -3364,8 +3276,7 @@ configuration file or use the asciidoc(1) `--attribute name!`
 command-line option (an attribute name suffixed with a `!` character
 deletes the attribute)
 
-Special Characters section
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Special Characters section
 The `[specialcharacters]` section specifies how to escape characters
 reserved by the backend markup. Each translation is specified on a
 single line formatted like:
@@ -3379,8 +3290,7 @@ occurrences of the `<` character to be replaced by `&lt;`.
 
   <=&lt;
 
-Quoted Text section
-~~~~~~~~~~~~~~~~~~~
+=== Quoted Text section
 Quoting is used primarily for text formatting.  The `[quotes]` section
 defines AsciiDoc quoting characters and their corresponding backend
 markup tags.  Each section entry value is the name of a of a `[tags]`
@@ -3417,8 +3327,7 @@ quotes by prefixing the tag name with a hash character, for example:
 - To minimize quoting ambiguity try not to use the same quote
   characters in different quote types.
 
-Special Words section
-~~~~~~~~~~~~~~~~~~~~~
+=== Special Words section
 The `[specialwords]` section is used to single out words and phrases
 that you want to consistently format in some way throughout your
 document without having to repeatedly specify the markup. The name of
@@ -3469,8 +3378,7 @@ ones.
   `ten` only if they are not preceded by a backslash.
 
 [[X10]]
-Replacements section
-~~~~~~~~~~~~~~~~~~~~
+=== Replacements section
 `[replacements]` and `[replacements2]` configuration file entries
 specify find and replace text and are formatted like:
 
@@ -3495,8 +3403,7 @@ macro name):
 - Replacements are performed in the same order they appear in the
   configuration file replacements section.
 
-Markup Template Sections
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Markup Template Sections
 Markup template sections supply backend markup for translating
 AsciiDoc elements.  Since the text is normally backend dependent
 you'll find these sections in the backend specific configuration
@@ -3513,8 +3420,7 @@ replaced by text from the source element.  Use the `{brvbar}`
 attribute reference if you need a literal | character in the template.
 
 [[X27]]
-Configuration File Names and Locations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Configuration File Names and Locations
 Configuration files have a `.conf` file name extension; they are
 loaded implicitly (using predefined file names and locations) or
 explicitly (using the asciidoc(1) `-f` (`--conf-file`) command-line
@@ -3577,8 +3483,7 @@ which configuration files are loaded and the order in which they are
 loaded.
 
 
-Document Attributes
--------------------
+== Document Attributes
 A document attribute is comprised of a 'name' and a textual 'value'
 and is used for textual substitution in AsciiDoc documents and
 configuration files. An attribute reference (an attribute name
@@ -3604,8 +3509,7 @@ generation.
 
 
 [[X18]]
-Attribute Entries
------------------
+== Attribute Entries
 The `AttributeEntry` block element allows document attributes to be
 assigned within an AsciiDoc document. Attribute entries are added to
 the global document attributes dictionary. The attribute name/value
@@ -3670,8 +3574,7 @@ Stuart Rackham <srackham@gmail.com>
 5.1.1, April 23, 2004
 ---------------------------------------------------------------------
 
-Setting configuration entries
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Setting configuration entries
 A variant of the Attribute Entry syntax allows configuration file
 entries to be set from within an AsciiDoc document:
 
@@ -3718,8 +3621,7 @@ and write, here are some examples:
 
 
 [[X21]]
-Attribute Lists
----------------
+== Attribute Lists
 - An attribute list is a comma separated list of attribute values.
 - The entire list is enclosed in square brackets.
 - Attribute lists are used to pass parameters to macros, blocks (using
@@ -3758,8 +3660,7 @@ comma (`&#44;`) and double-quote (`&#34;`) character entities:
   elsewhere).
 
 [[X75]]
-Options attribute
-~~~~~~~~~~~~~~~~~
+=== Options attribute
 If the attribute list contains an attribute named `options` it is
 processed as a comma separated list of option names:
 
@@ -3774,15 +3675,13 @@ processed as a comma separated list of option names:
 - AsciiDoc implements a number of predefined options which are listed
   in the <<X74,Attribute Options appendix>>.
 
-Macro Attribute lists
-~~~~~~~~~~~~~~~~~~~~~
+=== Macro Attribute lists
 Macros calls are suffixed with an attribute list. The list may be
 empty but it cannot be omitted. List entries are used to pass
 attribute values to macro markup templates.
 
 
-Attribute References
---------------------
+== Attribute References
 An attribute reference is an attribute name (possibly followed by an
 additional parameters) enclosed in curly braces.  When an attribute
 reference is encountered it is evaluated and replaced by its
@@ -3802,14 +3701,12 @@ and 'System'.
 - Attribute reference evaluation is performed in the following order:
   'Simple' then 'Conditional' and finally 'System'.
 
-Simple Attributes References
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Simple Attributes References
 Simple attribute references take the form `{<name>}`. If the
 attribute name is defined its text value is substituted otherwise the
 line containing the reference is dropped from the output.
 
-Conditional Attribute References
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Conditional Attribute References
 Additional parameters are used in conjunction with attribute names to
 calculate a substitution value. Conditional attribute references take
 the following forms:
@@ -3897,8 +3794,7 @@ Attribute value map::
 
 
 [[X24]]
-System Attribute References
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== System Attribute References
 System attribute references generate the attribute text value by
 executing a predefined action that is parametrized by one or more
 arguments. The syntax is `{<action>:<arguments>}`.
@@ -3991,8 +3887,7 @@ arguments. The syntax is `{<action>:<arguments>}`.
   escaped with a backslash.
 
 [[X60]]
-Intrinsic Attributes
---------------------
+== Intrinsic Attributes
 Intrinsic attributes are simple attributes that are created
 automatically from: AsciiDoc document header parameters; asciidoc(1)
 command-line arguments; attributes defined in the default
@@ -4087,8 +3982,7 @@ predefined intrinsic attributes:
 
 
 [[X73]]
-Block Element Definitions
--------------------------
+== Block Element Definitions
 The syntax and behavior of Paragraph, DelimitedBlock, List and Table
 block elements is determined by block definitions contained in
 <<X7,AsciiDoc configuration file>> sections.
@@ -4186,8 +4080,7 @@ be set in block attribute lists and style definitions: 'template',
 'options', 'subs', 'presubs', 'postsubs', 'filter'.
 
 [[X23]]
-Styles
-~~~~~~
+=== Styles
 A style is a set of block attributes bundled as a single named
 attribute. The following example defines a style named 'verbatim':
 
@@ -4201,8 +4094,7 @@ attribute. The following example defines a style named 'verbatim':
   list of values as they in separate entries e.g.
   `postsubs=("callouts",)` not `postsubs="callouts"`.
 
-Paragraphs
-~~~~~~~~~~
+=== Paragraphs
 Paragraph translation is controlled by `[paradef-*]` configuration
 file section entries. Users can define new types of paragraphs and
 modify the behavior of existing types by editing AsciiDoc
@@ -4248,8 +4140,7 @@ options::
 5. The paragraph text is enveloped by the paragraph's markup template
    and written to the output file.
 
-Delimited Blocks
-~~~~~~~~~~~~~~~~
+=== Delimited Blocks
 DelimitedBlock 'options' values are:
 
 sectionbody::
@@ -4277,8 +4168,7 @@ TIP: Attribute expansion is performed on the block filter command
 before it is executed, this is useful for passing arguments to the
 filter.
 
-Lists
-~~~~~
+=== Lists
 List behavior and syntax is determined by `[listdef-*]` configuration
 file sections. The user can change existing list behavior and add new
 list types by editing configuration files.
@@ -4301,8 +4191,7 @@ tags::
   backend markup; see the 'listtags' sections in the AsciiDoc
   distributed backend `.conf` configuration files for examples.
 
-Tables
-~~~~~~
+=== Tables
 Table behavior and syntax is determined by `[tabledef-*]` and
 `[tabletags-*]` configuration file sections. The user can change
 existing table behavior and add new table types by editing
@@ -4369,8 +4258,7 @@ WARNING: Filters can potentially generate unsafe output. Before
 installing a filter you should verify that it is from a trusted
 source.
 
-Filter Search Paths
-~~~~~~~~~~~~~~~~~~~
+=== Filter Search Paths
 If the filter command does not specify a directory path then
 asciidoc(1) searches for the command:
 
@@ -4387,8 +4275,7 @@ as the filter's style definition. For example the music filter's style
 name is 'music' so it's configuration and filter files are stored in
 the `filters/music` directory.
 
-Filter Configuration Files
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Filter Configuration Files
 Filters are normally accompanied by a configuration file containing a
 Paragraph or DelimitedBlock definition along with corresponding markup
 templates.
@@ -4405,8 +4292,7 @@ asciidoc(1) auto-loads all `.conf` files found in the filter search
 paths (see previous section).
 
 [[X56]]
-Code Filter
-~~~~~~~~~~~
+=== Code Filter
 AsciiDoc comes with a toy filter for highlighting source code keywords
 and comments.  See also the `./filters/code/code-filter-readme.txt`
 file.
@@ -4450,16 +4336,14 @@ def sub_word(mo):
 ----------------------------------------------
 
 [[X57]]
-Source Code Highlighter Filter
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Source Code Highlighter Filter
 A
 http://www.methods.co.nz/asciidoc/source-highlight-filter.html[source
 code highlighter filter] can be found in the AsciiDoc distribution
 `./filters` directory.
 
 [[X58]]
-Music Filter
-~~~~~~~~~~~~
+=== Music Filter
 A http://www.methods.co.nz/asciidoc/music-filter.html[music filter] is
 included in the distribution `./filters` directory. It translates
 music in http://lilypond.org/[LilyPond] or
@@ -4469,8 +4353,7 @@ inserted into the output document.
 
 
 [[X12]]
-Converting DocBook to other file formats
-----------------------------------------
+== Converting DocBook to other file formats
 DocBook files are validated, parsed and translated various
 presentation file formats using a combination of applications
 collectively called a DocBook 'tool chain'. The function of a tool
@@ -4483,8 +4366,7 @@ of available tools and stylesheets results in many valid tool chain
 combinations.
 
 [[X43]]
-a2x Toolchain Wrapper
-~~~~~~~~~~~~~~~~~~~~~
+=== a2x Toolchain Wrapper
 One of the biggest hurdles for new users is installing, configuring
 and using a DocBook XML toolchain. `a2x(1)` can help -- it's a
 toolchain wrapper command that will generate XHTML (chunked and
@@ -4511,8 +4393,7 @@ See the `a2x(1)` man page for details.
 TIP: Use the `--verbose` command-line option to view executed
 toolchain commands.
 
-HTML generation
-~~~~~~~~~~~~~~~
+=== HTML generation
 AsciiDoc produces nicely styled HTML directly without requiring a
 DocBook toolchain but there are also advantages in going the DocBook
 route:
@@ -4532,8 +4413,7 @@ is easily customized and can be used in situations where there is no
 suitable DocBook toolchain (for example, see the
 http://www.methods.co.nz/asciidoc/[AsciiDoc website]).
 
-PDF generation
-~~~~~~~~~~~~~~
+=== PDF generation
 There are two commonly used tools to generate PDFs from DocBook,
 <<X31,dblatex>> and <<X14,FOP>>.
 
@@ -4547,15 +4427,13 @@ There are two commonly used tools to generate PDFs from DocBook,
 - 'FOP' is more feature complete (for example, callouts are processed
   inside literal layouts) and arguably produces nicer looking output.
 
-HTML Help generation
-~~~~~~~~~~~~~~~~~~~~
+=== HTML Help generation
 . Convert DocBook XML documents to HTML Help compiler source files
   using <<X13,DocBook XSL Stylesheets>> and <<X40,xsltproc(1)>>.
 . Convert the HTML Help source (`.hhp` and `.html`) files to HTML Help
   (`.chm`) files using the <<X67,Microsoft HTML Help Compiler>>.
 
-Toolchain components summary
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Toolchain components summary
 AsciiDoc::
     Converts AsciiDoc (`.txt`) files to DocBook XML (`.xml`) files.
 
@@ -4587,16 +4465,14 @@ AsciiDoc::
   file. It runs on MS Windows platforms and can be downloaded from
   http://www.microsoft.com.
 
-AsciiDoc dblatex configuration files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== AsciiDoc dblatex configuration files
 The AsciiDoc distribution `./dblatex` directory contains
 `asciidoc-dblatex.xsl` (customized XSL parameter settings) and
 `asciidoc-dblatex.sty` (customized LaTeX settings). These are examples
 of optional <<X31,dblatex>> output customization and are used by
 <<X43,a2x(1)>>.
 
-AsciiDoc DocBook XSL Stylesheets drivers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== AsciiDoc DocBook XSL Stylesheets drivers
 You will have noticed that the distributed HTML and HTML Help
 documentation files (for example `./doc/asciidoc.html`) are not the
 plain outputs produced using the default 'DocBook XSL Stylesheets'
@@ -4658,8 +4534,7 @@ If you want to see how the complete documentation set is processed
 take a look at the A-A-P script `./doc/main.aap`.
 
 
-Generating Plain Text Files
----------------------------
+== Generating Plain Text Files
 AsciiDoc does not have a text backend (for most purposes AsciiDoc
 source text is fine), however you can convert AsciiDoc text files to
 formatted text using the AsciiDoc <<X43,a2x(1)>> toolchain wrapper
@@ -4667,8 +4542,7 @@ utility.
 
 
 [[X36]]
-Help Commands
--------------
+== Help Commands
 The asciidoc(1) command has a `--help` option which prints help topics
 to stdout. The default topic summarizes asciidoc(1) usage:
 
@@ -4687,8 +4561,7 @@ Examples:
   $ asciidoc --help=syntax
   $ asciidoc -hs              # Short version of previous example.
 
-Customizing Help
-~~~~~~~~~~~~~~~~
+=== Customizing Help
 To change, delete or add your own help topics edit a help
 configuration file.  The help file name `help-<lang>.conf` is based on
 the setting of the `lang` attribute, it defaults to `help.conf`
@@ -4709,19 +4582,16 @@ ambiguous. If a matching help file section is not found a list of
 available topics is printed.
 
 
-Tips and Tricks
----------------
+== Tips and Tricks
 
-Know Your Editor
-~~~~~~~~~~~~~~~~
+=== Know Your Editor
 Writing AsciiDoc documents will be a whole lot more pleasant if you
 know your favorite text editor. Learn how to indent and reformat text
 blocks, paragraphs, lists and sentences. <<X20,Tips for 'vim' users>>
 follow.
 
 [[X20]]
-Vim Commands for Formatting AsciiDoc
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Vim Commands for Formatting AsciiDoc
 Text Wrap Paragraphs
 ^^^^^^^^^^^^^^^^^^^^
 Use the vim `:gq` command to reformat paragraphs. Setting the
@@ -4795,13 +4665,11 @@ autocmd BufRead,BufNewFile *.txt,README,TODO,CHANGELOG,NOTES
         \ comments=s1:/*,ex:*/,://,b:#,:%,:XCOMM,fb:-,fb:*,fb:+,fb:.,fb:>
 ---------------------------------------------------------------------
 
-Troubleshooting
-~~~~~~~~~~~~~~~
+=== Troubleshooting
 AsciiDoc diagnostic features are detailed in the <<X82,Diagnostics
 appendix>>.
 
-Gotchas
-~~~~~~~
+=== Gotchas
 Incorrect character encoding::
     If you get an error message like `'UTF-8' codec can't decode ...`
     then you source file contains invalid UTF-8 characters -- set the
@@ -4865,8 +4733,7 @@ Attribute lists::
     ["Desktop screenshot",width=32]
 
 [[X90]]
-Combining separate documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Combining separate documents
 You have a number of stand-alone AsciiDoc documents that you want to
 process as a single document. Simply processing them with a series of
 `include` macros won't work because the documents contain (level 0)
@@ -4898,8 +4765,7 @@ on.
   and Revision lines) in the included files -- conditionally exclude
   them if they are necessary for stand-alone processing.
 
-Processing document sections separately
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Processing document sections separately
 You have divided your AsciiDoc document into separate files (one per
 top level section) which are combined and processed with the following
 top level document:
@@ -4923,8 +4789,7 @@ This is easy because asciidoc(1) will quite happily process
 resulting output documents contain the section but have no document
 title.
 
-Processing document snippets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Processing document snippets
 Use the `-s` (`--no-header-footer`) command-line option to suppress
 header and footer output, this is useful if the processed output is to
 be included in another file. For example:
@@ -4937,13 +4802,11 @@ through it. For example:
   $ echo 'Hello *World!*' | asciidoc -s -
   <div class="paragraph"><p>Hello <strong>World!</strong></p></div>
 
-Badges in HTML page footers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Badges in HTML page footers
 See the `[footer]` section in the AsciiDoc distribution `xhtml11.conf`
 configuration file.
 
-Pretty printing AsciiDoc output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Pretty printing AsciiDoc output
 If the indentation and layout of the asciidoc(1) output is not to your
 liking you can:
 
@@ -4960,15 +4823,13 @@ liking you can:
 
    $ xmllint --format mydoc.xml
 
-Supporting minor DocBook DTD variations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Supporting minor DocBook DTD variations
 The conditional inclusion of DocBook SGML markup at the end of the
 distribution `docbook.conf` file illustrates how to support minor DTD
 variations. The included sections override corresponding entries from
 preceding sections.
 
-Creating stand-alone HTML documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Creating stand-alone HTML documents
 If you've ever tried to send someone an HTML document that includes
 stylesheets and images you'll know that it's not as straight-forward
 as exchanging a single file.  AsciiDoc has options to create
@@ -4982,8 +4843,7 @@ containing <<X66,embedded images>>, CSS stylesheets, and JavaScript
 You can view the HTML file here:
 http://www.methods.co.nz/asciidoc/article-standalone.html
 
-Shipping stand-alone AsciiDoc source
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Shipping stand-alone AsciiDoc source
 Reproducing presentation documents from someone else's source has one
 major problem: unless your configuration files are the same as the
 creator's you won't get the same output.
@@ -5007,15 +4867,13 @@ The `-e` (`--no-conf`) option excludes the use of implicit
 configuration files, ensuring that only entries from the
 `mydoc-html.conf` configuration are used.
 
-Inserting blank space
-~~~~~~~~~~~~~~~~~~~~~
+=== Inserting blank space
 Adjust your style sheets to add the correct separation between block
 elements. Inserting blank paragraphs containing a single non-breaking
 space character `{nbsp}` works but is an ad hoc solution compared
 to using style sheets.
 
-Closing open sections
-~~~~~~~~~~~~~~~~~~~~~
+=== Closing open sections
 You can close off section tags up to level `N` by calling the
 `eval::[Section.setlevel(N)]` system macro. This is useful if you
 want to include a section composed of raw markup. The following
@@ -5038,8 +4896,7 @@ example includes a DocBook glossary division at the top section level
 \endif::backend-docbook[]
 ---------------------------------------------------------------------
 
-Validating output files
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Validating output files
 Use `xmllint(1)` to check the AsciiDoc generated markup is both well
 formed and valid. Here are some examples:
 
@@ -5079,11 +4936,9 @@ Verbatim element::
 
 
 [appendix]
-Migration Notes
----------------
+== 移植的注意事項
 [[X53]]
-Version 7 to version 8
-~~~~~~~~~~~~~~~~~~~~~~
+=== Version 7 to version 8
 - A new set of quotes has been introduced which may match inline text
   in existing documents -- if they do you'll need to escape the
   matched text with backslashes.
@@ -5105,18 +4960,16 @@ define the attribute `asciidoc7compatible` (for example by using the
 
 [[X38]]
 [appendix]
-Packager Notes
---------------
-Read the `README` and `INSTALL` files (in the distribution root
-directory) for install prerequisites and procedures.  The distribution
+== 套件製作者注意事項 ==
+請參讀 `README` 及 `INSTALL` 文檔(在發行檔的根目錄中)內有安裝需知及程序。
+The distribution
 `Makefile.in` (used by `configure` to generate the `Makefile`) is the
 canonical installation procedure.
 
 
 [[X39]]
 [appendix]
-AsciiDoc Safe Mode
--------------------
+== AsciiDoc安全模式(Safe Mode) ==
 AsciiDoc 'safe mode' skips potentially dangerous scripted sections in
 AsciiDoc source files by inhibiting the execution of arbitrary code or
 the inclusion of arbitrary files.
@@ -5145,16 +4998,13 @@ configuration files. Be especially careful when:
 
 
 [appendix]
-Using AsciiDoc with non-English Languages
------------------------------------------
-AsciiDoc can process UTF-8 character sets but there are some things
-you need to be aware of:
+== 在非英語系語言中使用AsciiDoc ==
+AsciiDoc能夠處理UTF-8字元集但要注意下列事項：
 
-- If you are generating output documents using a DocBook toolchain
-  then you should set the AsciiDoc `lang` attribute to the appropriate
-  language (it defaults to `en` (English)). This will ensure things
+- 若你要使用DocBook toolchain，來產生輸出文件，你必須將AsciiDoc的 `lang` 
+  屬性設成正確的語言(預設為 `en` (English))。 This will ensure things
   like table of contents, figure and table captions and admonition
-  captions are output in the specified language.  For example:
+  captions are output in the specified language.  舉例如下：
 
   $ a2x -a lang=es doc/article.txt
 
@@ -5165,9 +5015,8 @@ you need to be aware of:
   create a language `.conf` file (see the AsciiDoc's `lang-en.conf`
   file).
 +
-NOTE: You still use the 'NOTE', 'CAUTION', 'TIP', 'WARNING',
-'IMPORTANT' captions in the AsciiDoc source, they get translated in
-the HTML output file.
+NOTE: 你仍需要在AsciiDoc源碼檔中使用 'NOTE', 'CAUTION', 'TIP', 'WARNING',
+'IMPORTANT' ，他們會在HTML輸出檔中被轉換。
 
 - asciidoc(1) automatically loads configuration files named like
   `lang-<lang>.conf` where `<lang>` is a two letter language code that
@@ -5182,8 +5031,7 @@ the HTML output file.
 
 
 [appendix]
-Vim Syntax Highlighter
-----------------------
+== Vim Syntax Highlighter
 Syntax highlighting is incredibly useful, in addition to making
 reading AsciiDoc documents much easier syntax highlighting also helps
 you catch AsciiDoc syntax errors as you write your documents.
@@ -5207,8 +5055,7 @@ command to set bold bright fonts.
 NOTE: There are a number of alternative syntax highlighters for various editors
 listed on the http://www.methods.co.nz/asciidoc/[AsciiDoc website].
 
-Limitations
-~~~~~~~~~~~
+=== Limitations
 The current implementation does a reasonable job but on occasions gets
 things wrong:
 
@@ -5225,8 +5072,7 @@ things wrong:
 
 [[X74]]
 [appendix]
-Attribute Options
------------------
+== Attribute Options
 Here is the list of predefined <<X75,attribute list options>>:
 
 
@@ -5265,8 +5111,7 @@ Emboldens label text.
 
 [[X82]]
 [appendix]
-Diagnostics
------------
+== Diagnostics
 The `asciidoc(1)` `--verbose` command-line option prints additional
 information to stderr: files processed, filters processed, warnings,
 system attribute evaluation.
@@ -5324,8 +5169,7 @@ Attribute Entry examples:
 
 [[X88]]
 [appendix]
-Backend Attributes
-------------------
+== Backend Attributes
 This table contains a list of optional attributes that influence the
 generated outputs.
 
