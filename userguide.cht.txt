@@ -91,8 +91,7 @@ AsciiDoc定義了標準DocBook文件用的前頁(frontmatter)及後頁(backmatte
 === 書籍(book) ===
 書籍跟專題文章所使用的格式一樣，但不同的地方如下：
 
-- The part titles in multi-part books are <<X17,top level titles>>
-  (same level as book title).
+- 在分部藉籍中部標題是<<X17,最上層標題>> (與書籍標題同階層)。
 - 有些區段(section)是book才有的例如：前言(preface)及版權頁(colophon)。
 
 
@@ -266,16 +265,13 @@ footnote:[這只是一個大概的概覽，並不是一個嚴謹的語法定義]
   * 文件版本號之後必需跟著一個逗號。
   * 文件版本號內必需至少包含一個數字字元。
   * 在第一個數字字元之前的非數字字元將被捨棄。
-  * 修証備註之前必需有一個冒號。
-    The revision remark extends from the colon up to the next blank
-    line or attribute entry and is subject to normal text
-    substitutions.
-  * If a revision number or remark has been set but the revision date
-    has not been set then the revision date is set to the value of the
-    'docdate' attribute.
+  * 修訂備註之前必需有一個冒號。
+    修訂備註的內容是從冒號之後算起到下一個空白列(或下一個屬性項目)為止。內容本身
+    可進行一般的文字替換。
+  * 若是文件版本號或是修訂備註有設置，而修訂日期並沒有設則會根據 'docdate' 屬性的
+    值來設定修訂日期的值。
 
-. An RCS/CVS/SVN $Id$ marker (if an $Id$ revision marker is used the
-  header author line can be omitted).
+. 一個 RCS/CVS/SVN $Id$ 標記 (假設有使用 $Id$ 修訂標記則標頭的作者資訊列可省略)。
 
 下面列出一些標頭的文件版本號列：
 
@@ -298,25 +294,20 @@ Attributes can also be added to the header for substitution in the
 header template with <<X18,屬性項目>> elements.
 
 [[X87]]
-==== Additional document header information
-A 'docinfo' file is a mechanism for including additional meta-data in
-the header of the output document.
+==== 其他的文件標頭資訊 ====
+可以使用 'docinfo' 檔來引入額外的meta-data資訊在輸出檔的標頭中。
 
-- The docinfo file is named like the AsciiDoc source file with the
-  addition of a `-docinfo` suffix.  For example, if the source
-  document is called `mydoc.txt` then the document information file
-  would be named `mydoc-docinfo.xml` (for DocBook output) or
-  `mydoc-docinfo.html` (for HTML outputs).
-- To include the docinfo file in you need to define the AsciiDoc
-  'docinfo' attribute. The following first example will include the
-  `mydoc-docinfo.xml` docinfo file inside the DocBook 'articleinfo'
-  element; the second example will include the `mydoc-docinfo.html`
-  docinfo file inside the HTML 'header' element:
+- docinfo檔的命名如同AsciiDoc源碼檔一個但是多了一個 `-docinfo` 的字尾。例如，若源碼檔叫
+  `mydoc.txt` 則其docinfo檔應命名成 `mydoc-docinfo.xml` (給DocBook輸出用)或是
+  叫 `mydoc-docinfo.html` (給HTML輸出用)。
+- 你需要使用AsciiDoc的 'docinfo' 屬性來含入docinfo檔。下面的範例中第一個例子中會把
+  `mydoc-docinfo.xml` 這個docinfo檔包在DocBook的 'articleinfo' 元素中；第二個例子會
+  含入 `mydoc-docinfo.html` 這個docinfo檔在HTML的 'header' 元素中：
 
   $ asciidoc -a docinfo -b docbook mydoc.txt
   $ asciidoc -a docinfo -b html4 mydoc.txt
 
-The contents docinfo file is dependent on the type of output:
+docinfo檔的內容取決於輸出的形式：
 
 HTML::
   Valid 'head' child elements. Typically 'style' and 'script' elements
@@ -337,34 +328,28 @@ DocBook::
 前文(或序文)可有可無，沒有也沒關系。
 
 === 區段(Sections) ===
-In addition to the document title (level 0), AsciiDoc supports four
-section levels: 1 (top) to 4 (bottom).  Section levels are delimited
-by section <<X17,titles>>.  Sections are translated using
-configuration file <<X93,section markup templates>>. AsciiDoc
-generates the following <<X60,intrinsic attributes>> specifically for
-use in section markup templates:
+除了文件標題(level 0)之外，AsciiDoc支援了四層的區段階層：1(top)到4(bottom)。
+區段階層以區段<<X17,標題>>為界。各個區段會使用組態檔中的<<X93,區段標記模版(
+section markup templates)>>來轉譯。AsciiDoc會產生下列<<X60,內在屬性>>，這些
+屬性會在區段標記模版中被用到：
 
 level::
-The `level` attribute is the section level number, it is normally just
-the <<X17,title>> level number (1..4). However, if the `leveloffset`
-attribute is defined it will be added to the `level` attribute. The
-`leveloffset` attribute is useful for <<X90,combining documents>>.
+`level` 屬性為區段階層數，一般來說，就是指<<X17,標題>> 階層數(1..4)。
+不過，若是 `leveloffset` 屬性有定義的話它的值會被加進 `level` 屬性裡。 
+`leveloffset` 屬性在作<<X90,文件合併>>很有用。
 
 sectnum::
-The `-n` (`--section-numbers`) command-line option generates the
-`sectnum` (section number) attribute.  The `sectnum` attribute is used
-for section numbers in HTML outputs (DocBook section numbering are
-handled automatically by the DocBook toolchain commands).
+命令列選項 `-n` (`--section-numbers`) 將產生 `sectnum` (區段編號,section number)屬性。
+`sectnum` 屬性會在HTML輸出中作區段編號(DocBook的區段編號將由DocBook toolchain命令自動處理)。
 
 [[X93]]
-==== Section markup templates
-Section markup templates specify output markup and are defined in
-AsciiDoc configuration files.  Section markup template names are
-derived as follows (in order of precedence):
+==== 區段標記模版(Section markup templates) ====
+區段標記模版在AsciiDoc組態檔中定義。它定義了在輸出檔中的標記為何。區段標記
+模版的名稱有下列衍伸(in order of precedence)：
 
-1. From the title's first positional attribute or 'template'
-   attribute. For example, the following three section titles are
-   functionally equivalent:
+1. 從標題的第一個(在位置上第一個)屬性而得或從 'template' 屬性而得。舉例來說，
+   下列三個區段標題在功能上是一樣的：
+
 +
 .....................................................................
 [[terms]]
@@ -381,44 +366,36 @@ List of Terms
 -------------
 .....................................................................
 
-2. When the title text matches a configuration file
-   <<X16,`[specialsections]`>> entry.
+2. 當標題文字與組態檔中的<<X16,`[specialsections]`>>項目相符合時。
 3. If neither of the above the default `sect<level>` template is used
    (where `<level>` is a number from 1 to 4).
 
-In addition to the normal section template names ('sect1', 'sect2',
-'sect3', 'sect4') AsciiDoc has the following templates for
-frontmatter, backmatter and other special sections: 'abstract',
-'preface', 'colophon', 'dedication', 'glossary', 'bibliography',
-'synopsis', 'appendix', 'index'.  These special section templates
-generate the corresponding Docbook elements; for HTML outputs they
-default to the 'sect1' section template.
+除了一般的區段模版名稱('sect1', 'sect2','sect3', 'sect4')之外，AsciiDoc還有下列給前頁
+(frontmatter)，後頁(backmatter)及其他區段的特殊模版： 'abstract', 'preface', 'colophon',
+'dedication', 'glossary', 'bibliography','synopsis', 'appendix', 'index' 。
+這些特殊區段模版會產生出相對應的Docbook元素出來；若是對HTML輸出則會預設為 'sect1' 區段
+模版。
 
-==== Section IDs
-If no explicit section ID is specified an ID will be synthesised from
-the section title.  The primary purpose of this feature is to ensure
-persistence of table of contents links (permalinks): the missing
-section IDs are generated dynamically by the JavaScript TOC generator
-*after* the page is loaded. If you link to a dynamically generated TOC
+==== 區段ID(Section IDs) ====
+若沒有明確設置區段的區段ID則它的ID將由區段標題合成而來。這個設計主要的用意是在
+確保目錄連結(permalinks)的一致性：persistence 遺失的區段ID在該頁 *載入後* 將由
+JavaScript TOC generator動態產生。If you link to a dynamically generated TOC
 address the page will load but the browser will ignore the (as yet
 ungenerated) section ID.
 
-The IDs are generated by the following algorithm:
+ID的產生將使用下述演算法：
 
-- Replace all non-alphanumeric title characters with underscores.
-- Strip leading or trailing underscores.
-- Convert to lowercase.
-- Prepend the `idprefix` attribute (so there's no possibility of name
-  clashes with existing document IDs). Prepend an underscore if the
-  `idprefix` attribute is not defined.
-- A numbered suffix (`_2`, `_3` ...) is added if a same named
-  auto-generated section ID exists.
+- 把標題中非數字的字元都用底線取代。
+- 去掉頭、尾的底線字元。
+- 轉成小寫字元。
+- 在最開頭置入 `idprefix` 屬性的值(此時的這個名稱應該沒有任何的可能跟其他
+  名稱撞名)。若 `idprefix` 屬性並未定義，則在前面加一個底線。
+- 如果有一個名稱跟自動產生出來的區段ID一樣，則在後面加一個數字作後綴
+  (`_2`, `_3` ...)。
 
-For example the title 'Jim's House' would generate the ID
-`_jim_s_house`.
+舉例來說， 'Jim's House' 這個標題將產生 `_jim_s_house` 這個ID。
 
-Section ID synthesis can be disabled by undefining the `sectids`
-attribute.
+區段ID的合成可以用解除 `sectids` 屬性來關閉。
 
 [[X16]]
 ==== 特殊區段標題 ====
@@ -442,7 +419,7 @@ is set to the value of the matched regular expression group named
 of the AsciiDoc section title. If `<template>` is blank then any
 existing entry with the same `<title>` will be deleted.
 
-.Special section titles vs. explicit template names
+.特殊區段標題 vs. explicit template names
 *********************************************************************
 AsciiDoc has two mechanisms for specifying non-default section markup
 templates: you can specify the template name explicitly (using the
@@ -469,40 +446,33 @@ backward compatibility.
 
 *********************************************************************
 
-=== Inline Elements
-<<X34,Inline document elements>> are used to format text and to
-perform various types of text substitution. Inline elements and inline
-element syntax is defined in the asciidoc(1) configuration files.
+=== 列內單元(Inline Elements) ===
+<<X34,列內文件元素>>被用來標記文字格式及各樣的文字替換。列內元素及其語法定義
+在asciidoc(1)的組態檔中。
 
-Here is a list of AsciiDoc inline elements in the (default) order in
-which they are processed:
+下面我們列出AsciiDoc中，列內單元預設將以下列順序被處理：
 
-Special characters::
-        These character sequences escape special characters used by
-        the backend markup (typically `<`, `>`, and `&` characters).
-        See `[specialcharacters]` configuration file sections.
+特殊字元(Special characters)::
+        這些字元在後端標記要跳脫特殊字元的使用(典型的特殊字元有 `<`, `>`, 及 `&` )。
+        請參考組態檔中的 `[specialcharacters]` 分段。
 
-Quotes::
-        Elements that markup words and phrases; usually for character
-        formatting. See `[quotes]` configuration file sections.
+引號(Quotes)::
+        這些字元被用來標記單字跟片語，通常是用在字元的格式化上面。請參考組態檔
+        中的 `[quotes]` 段。
 
-Special Words::
-        Word or word phrase patterns singled out for markup without
-        the need for further annotation.  See `[specialwords]`
-        configuration file sections.
+特殊字(Special Words)::
+        挑出單字或片語來標記而不需要額外標註。請參考組態檔中的 `[specialwords]` 分段。
 
-Replacements::
-        Each replacement defines a word or word phrase pattern to
-        search for along with corresponding replacement text. See
-        `[replacements]` configuration file sections.
+替換文字(Replacements)::
+        每一個替換文字都定義了一個字或一個片語AsciiDoc會找尋相對應的替換文字來替換。
+        請參考組態檔中的 `[replacements]` 分段。
 
-Attribute references::
-        Document attribute names enclosed in braces are replaced by
-        the corresponding attribute value.
+屬性參照(Attribute references)::
+        文件的屬性名稱由方括號所框住(表示參考到一個屬性)，它會替換成
+        相對應的屬性值。        
 
-Inline Macros::
-        Inline macros are replaced by the contents of parametrized
-        configuration file sections.
+列內巨集(Inline Macros)::
+        列內巨集會根據組據檔中參數化的內容來替換。
 
 
 == 文件處理 ==
@@ -534,39 +504,8 @@ to be checked.
 6. 列內巨集(Inline Macros)
 7. 替換文字2(Replacements2)
 
-The substitutions and substitution order performed on
-Title, Paragraph and DelimitedBlock elements is determined by
-configuration file parameters.
-
-
-== 文字格式 ==
-[[X51]]
-=== 引用文字(Quoted text) ===
-單字或片語可以被引號框住進行文字的格式化：
-
-_要強調的文字(Emphasized text)_::
-        單字或片語\'由單引號所框住的字元' (重音符號(acute accents)) 
-        或是 \_由底線所框住的字元_ 會被強調。
-
-*要增強的文字(Strong text)*::
-        單字或片語 \*由星號所框住的字元* 輸出時會用增強字體(通常是
-        粗體)。
-
-[[X81]]+等寬字體的文字(Monospaced text)+::
-        單字或片語 \+由加號所框住的字元+ 輸出時會用等寬字體(monospaced font)。
-        單字或片語 \`由反引號(backtick)所框住的字元` (反引號也用在重音符號(grave
-        accents))輸出時也會用等寬字體(monospaced font)，但是在這種情況下，被框住
-        的字元只會照字面輸出，不會作進一步的擴展、延伸。(請參考<<X80,inline literal>>)。
-
-`Single quoted text'::
-        Phrases enclosed with a \`single grave accent to the left and
-        a single acute accent to the right' are rendered in single
-        quotation marks.
-
-``Double quoted text''::
-        Phrases enclosed with \\``two grave accents to the left and
-        two acute accents to the right'' are rendered in quotation
-        marks.
+上述所提到的替換，可能在標題(Title)、文章分段(Paragraph)、分隔區塊(DelimitedBlock)中進行，
+至於替換的順序及怎麼替換則由組態檔中的參數來決定。
 
 #Unquoted text#::
         Placing \#hashes around text# does nothing, it is a mechanism
@@ -615,19 +554,17 @@ examples:
   span.yellowback { background: #faf519; }
 
 [[X52]]
-==== Constrained and Unconstrained Quotes
-There are actually two types of quotes:
+==== 限制型引號形式(Constrained)與非限式型引號形式(Unconstrained Quotes)
+實際上只有兩種引號型式：
 
-===== Constrained quotes
-Quoted must be bounded by white space or commonly adjoining
-punctuation characters. These are the most commonly used type of
-quote.
+===== 限制型引號形式(Constrained quotes) =====
+被引號框住的文字必需以空白字元作邊界區隔，例如一個單字或一個片語。這也
+是我們之前所討論比較常見的引號型式。
 
-===== Unconstrained quotes
-Unconstrained quotes have no boundary constraints and can be placed
-anywhere within inline text. For consistency and to make them easier
-to remember unconstrained quotes are double-ups of the `_`, `*`, `+`
-and `#` constrained quotes:
+===== 非限式型引號形式(Unconstrained quotes) =====
+非限制型引號形式並沒有邊界條件的限制，也就是說兩邊不一定要有空白字元為界
+，可以放在一列文字的任何地方。為了一致性的考量，也為了方便使用，非限制型
+所使用的引號為**兩個**限制型引號所使用的符號( `_` ， `*` ， `+` `#` )，如下例：
 
   __unconstrained emphasized text__
   **unconstrained strong text**
@@ -639,9 +576,8 @@ and `#` constrained quotes:
   **F**ile Open...
 
 === 上標(Superscripts)與下標(Subscripts) ===
-Put \^carets on either^ side of the text to be superscripted, put
-\~tildes on either side~ of text to be subscripted.  For example, the
-following line:
+將 \^脫字符號(carets)放在兩端^ 會則此段文字作上標，而將\~波浪符號(tilde)放在兩端~ 
+則會將此段文字作下標。舉例來說，下面這一列：
 
   e^&#960;i^+1 = 0. H~2~O and x^10^. Some ^super text^
   and ~some sub text~
@@ -651,30 +587,27 @@ following line:
 e^&#960;i^+1 = 0. H~2~O and x^10^. Some ^super text^
 and ~some sub text~
 
-Superscripts and subscripts are implemented as <<X52,unconstrained
-quotes>> and they can be escaped with a leading backslash and prefixed
-with with an attribute list.
+上標與下標的實作是透過<<X52,非限制型引號形式>>來達成的。也可以在在最前面
+用backslash來跳脫。而且前面也可以放一個屬性列表。
 
 === 斷行(Line Breaks) ===
-A plus character preceded by at least one space character at the end
-of a non-blank line forces a line break. It generates a line break
-(`br`) tag for HTML outputs and a custom XML `asciidoc-br` processing
-instruction for DocBook outputs. The `asciidoc-br` processing
-instruction is handled by <<X43,a2x(1)>>.
+在一列的最後(該列要有內容，不是空列)若放一個加號，並且加號之前有至少一個空白字元
+將產生一個斷行。對於HTML輸出它會產生一個(`br`) tag，而對於DocBook輸出它會產生一個
+客製化的XML `asciidoc-br` 處理指令。這個 `asciidoc-br` 處理指令會由<<X43,a2x(1)>>
+來進行。
 
 === 分頁(Page Breaks) ===
-A line of three or more less-than (`<<<`) characters will generate a
-hard page break in DocBook and printed HTML outputs.  It uses the CSS
-`page-break-after` property for HTML outputs and a custom XML
-`asciidoc-pagebreak` processing instruction for DocBook outputs. The
-`asciidoc-pagebreak` processing instruction is handled by
-<<X43,a2x(1)>>. Hard page breaks are sometimes handy but as a general
-rule you should let your page processor generate page breaks for you.
+若有一列有超過三個\<字元組成(`<<<`)會在DocBook的輸出及列印出來的HTML輸出中
+硬產生一個分頁。對於HTML輸出它會使用CSS `page-break-after` property達成，而
+對於DocBook輸出會使用客製的XML `asciidoc-pagebreak` 處理指令來達成。這個
+`asciidoc-pagebreak` 處理指令會由<<X43,a2x(1)>>來進行。
+硬作分頁的作法有時很方便，不過一般的通則還是建議讓你的頁面處理器來幫你產生分頁。
 
 === 尺規(Rulers) ===
 一個由三個以上撇號字元(也有人翻成省略符號，apostrophe)以上所組成的列將產生
-一個尺規列。若是輸出成HTML則一個尺規列將產生(`hr`) tag。輸出成DocBook的話會用 outputs and a custom
-一個客製化的XML `asciidoc-hr` 處理指令來處理。 `asciidoc-hr` 處理指令將由<<X43,a2x(1)>>執行。
+一個尺規列。若是輸出成HTML則一個尺規列將產生(`hr`) tag。輸出成DocBook的話會用
+一個客製化的XML `asciidoc-hr` 處理指令來處理。 `asciidoc-hr`
+處理指令將由<<X43,a2x(1)>>執行。
 
 === 跳格(Tabs) ===
 在預設的情況下，跳格字元會被轉譯成8個空白字元。你可以在組態檔的 
@@ -1726,9 +1659,8 @@ This paragraph belongs to item two of the outer list.
 
 
 [[X92]]
-== Footnotes
-The shipped AsciiDoc configuration includes three footnote inline
-macros:
+== 註腳 ==
+目前AsciiDoc組態檔中包含三種註腳的列內巨集：
 
 `footnote:[<text>]`::
   Generates a footnote with text `<text>`.
@@ -1745,13 +1677,13 @@ The 'xhtml11' backend renders footnotes dynamically using JavaScript;
 'html4' outputs do not use JavaScript and leave the footnotes inline;
 'docbook' footnotes are processed by the downstream DocBook toolchain.
 
-Example footnotes:
+註腳範例：
 
   A footnote footnote:[An example footnote.];
   a second footnote with a reference ID footnoteref:[note2,Second footnote.];
   finally a reference to the second footnote footnoteref:[note2].
 
-Renders:
+輸出結果：
 
 A footnote footnote:[An example footnote.];
 a second footnote with a reference ID footnoteref:[note2,Second footnote.];
@@ -1950,14 +1882,14 @@ rendered using predefined inline macros.
   macro syntax.
 - If the `<attrlist>` is empty the URL is displayed.
 
-Here are some examples:
+例如：
 
   http://www.methods.co.nz/asciidoc/[The AsciiDoc home page]
   http://www.methods.co.nz/asciidoc/
   mailto:joe.bloggs@foobar.com[email Joe Bloggs]
   joe.bloggs@foobar.com
 
-Which are rendered:
+會看起來像這樣：
 
 http://www.methods.co.nz/asciidoc/[The AsciiDoc home page]
 
@@ -2184,7 +2116,7 @@ single-file XHTML documents with embedded images and CSS, for example:
 *********************************************************************
 
 [[X25]]
-==== Comment Lines
+==== 註解列 ====
 Single lines starting with two forward slashes hard up against the
 left margin are treated as comments. Comment lines do not appear in
 the output unless the 'showcomments' attribute is defined.  Comment
@@ -2456,7 +2388,7 @@ subslist::
   document.
 
 
-== Tables
+== 表格 ==
 The AsciiDoc table syntax looks and behaves like other delimited block
 types and supports standard <<X73,block configuration entries>>.
 Formatting is easy to read and, just as importantly, easy to enter.
@@ -2484,9 +2416,9 @@ Tables are designed for, and should normally only be used for,
 displaying column oriented tabular data.
 *********************************************************************
 
-=== Example tables
+=== 表格範例 ===
 
-.Simple table
+.簡易表格
 [width="15%"]
 |=======
 |1 |2 |A
@@ -2494,7 +2426,7 @@ displaying column oriented tabular data.
 |5 |6 |C
 |=======
 
-.AsciiDoc source
+.AsciiDoc源碼
 ---------------------------------------------------------------------
 [width="15%"]
 |=======
@@ -2933,9 +2865,8 @@ NOTE: Technically you can nest DocBook 4 tables one level using the
 
 
 [[X1]]
-== Manpage Documents
-Sooner or later, if you program in a UNIX environment, you're going
-to have to write a man page.
+== Manpage Documents ==
+如果你在UNIX的環境下開發程式，那你早晚會需要寫man page文件。
 
 By observing a couple of additional conventions you can compose
 AsciiDoc files that will generate DocBook refentry (man page)
@@ -2947,9 +2878,9 @@ For example, the `asciidoc.1.txt` file in the AsciiDoc distribution
 `asciidoc.1.css-embedded.html` HTML file the `asciidoc.1` roff
 formatted `asciidoc(1)` man page.
 
-.Viewing and printing manpage files
+.檢視及列印manpage檔
 **********************************************************************
-Use the `man(1)` command to view the manpage file:
+使用 `man(1)` 命令來檢視manpage檔：
 
   $ man -l asciidoc.1
 
@@ -2969,24 +2900,23 @@ To find out more about man pages view the `man(7)` manpage
 (`man 7 man` and `man man-pages` commands).
 
 
-=== Document Header
-A manpage document Header is mandatory. The title line contains the
-man page name followed immediately by the manual section number in
-brackets, for example 'ASCIIDOC(1)'. The title name should not contain
-white space and the manual section number is a single digit optionally
-followed by a single character.
+=== 文件標頭 ===
+manpage的文件標頭是必備的。在標題中要有man page的名稱，名稱之後緊跟著一個
+括號裡面有一個手冊分區號碼(manual section number)，像 'ASCIIDOC(1)' 這樣。
+標題名稱中不該出現空白字元，並且手冊分區號碼為一個字元的數字(這個數字之後
+也可以跟著一個單一字元)。
 
-=== The NAME Section
-The first manpage section is mandatory, must be titled 'NAME' and must
+=== NAME 區段 ===
+第一個必備的區段其區段標題為 'NAME' ，並且需包含一個文章分段(通常是一列)
+and must
 contain a single paragraph (usually a single line) consisting of a
 list of one or more comma separated command name(s) separated from the
-command purpose by a dash character. The dash must have at least one
-white space character on either side. For example:
+command purpose by a dash character. 破折號的兩邊至少都有一個空白字元。例如：
 
   printf, fprintf, sprintf - print formatted output
 
-=== The SYNOPSIS Section
-The second manpage section is mandatory and must be titled 'SYNOPSIS'.
+=== SYNOPSIS 區段 ===
+第二個必備的區段為 'SYNOPSIS' ，其標題就是 'SYNOPSIS' 。
 
 === refmiscinfo attributes
 In addition to the automatically created man page <<X60,intrinsic
@@ -3081,13 +3011,13 @@ include MathML in output documents.
 
 
 [[X7]]
-== Configuration Files
+== 組態檔 ==
 AsciiDoc source file syntax and output file markup is largely
 controlled by a set of cascading, text based, configuration files.  At
 runtime The AsciiDoc default configuration files are combined with
 optional user and document specific configuration files.
 
-=== Configuration File Format
+=== 組態檔格式 ===
 Configuration files contain named sections. Each section begins with a
 section name in square brackets []. The section body consists of the
 lines of text between adjacent section headings.
@@ -3240,7 +3170,7 @@ the output file.
 Use the `{brvbar}` attribute reference if you need to include a | pipe
 character inside tag text.
 
-=== Attributes section
+=== 屬性區段 ===
 The optional `[attributes]` section contains predefined attributes.
 
 If the attribute value requires leading or trailing spaces then the
@@ -3251,7 +3181,7 @@ configuration file or use the asciidoc(1) `--attribute name!`
 command-line option (an attribute name suffixed with a `!` character
 deletes the attribute)
 
-=== Special Characters section
+=== 特殊字元區段 ===
 The `[specialcharacters]` section specifies how to escape characters
 reserved by the backend markup. Each translation is specified on a
 single line formatted like:
@@ -3395,16 +3325,14 @@ replaced by text from the source element.  Use the `{brvbar}`
 attribute reference if you need a literal | character in the template.
 
 [[X27]]
-=== Configuration File Names and Locations
-Configuration files have a `.conf` file name extension; they are
-loaded implicitly (using predefined file names and locations) or
-explicitly (using the asciidoc(1) `-f` (`--conf-file`) command-line
-option).
+=== 組態檔檔名及位置 ===
+組態檔以 `.conf` 為其副檔名；它們會在執行時默默地被載入(在預設的位置使用預設
+的檔名)或是在下asciidoc(1)命令時用命令列選項 `-f` (`--conf-file`) 明確指定載
+入的組態檔。
 
-Implicit configuration files are loaded from the following directories
-in the following order:
+如果是第一種情況(默默地載入)則會依下述的目錄順序來載入：
 
-1. The directory containing the asciidoc executable.
+1. 含有asciidoc執行檔的目錄。
 2. If there is no `asciidoc.conf` file in the directory containing the
    asciidoc executable then load from the global configuration
    directory (normally `/etc/asciidoc` or `/usr/local/etc/asciidoc`)
@@ -3412,19 +3340,17 @@ in the following order:
    AsciiDoc configuration files are installed in the same directory as
    the asciidoc executable. This allows both a system wide copy and
    multiple local copies of AsciiDoc to coexist on the same host PC.
-3. The user's `$HOME/.asciidoc` directory (if it exists).
-4. The directory containing the AsciiDoc source file.
+3. 使用者的 `$HOME/.asciidoc` 目錄(假如存在的話)。
+4. 含有AsciiDoc源碼文件的目錄。
 
-The following implicit configuration files from each of the above
-locations are loaded in the following order:
+除了目錄的順序之外，戴入組態檔的順序如下：
 
 1. `asciidoc.conf`
 2. `<backend>.conf`
 3. `<backend>-<doctype>.conf`
 
-Where `<backend>` and `<doctype>` are values specified by the
-asciidoc(1) `-b` (`--backend`) and `-d` (`--doctype`) command-line
-options.
+其中 `<backend>` 及 `<doctype>` 的值從下asciidoc(1)命令時的 `-b` (`--backend`)
+和 `-d` (`--doctype`)而來。
 
 Next, configuration files named like the source file will be
 automatically loaded if they are found in the source file directory.
@@ -3453,12 +3379,11 @@ precedes the document header, for example:
 
   :lang: es
 
-TIP: Use the asciidoc(1) `-v` (`--verbose`) command-line option to see
-which configuration files are loaded and the order in which they are
-loaded.
+TIP: 下asciidoc(1)命令時使用命令列選項 `-v` (`--verbose`)可看到載入了哪些組態
+檔及其載入的順序。
 
 
-== Document Attributes
+== 文件屬性(Document Attributes) ==
 A document attribute is comprised of a 'name' and a textual 'value'
 and is used for textual substitution in AsciiDoc documents and
 configuration files. An attribute reference (an attribute name
@@ -3484,7 +3409,7 @@ generation.
 
 
 [[X18]]
-== Attribute Entries
+== 屬性項目(Attribute Entries) ==
 The `AttributeEntry` block element allows document attributes to be
 assigned within an AsciiDoc document. Attribute entries are added to
 the global document attributes dictionary. The attribute name/value
@@ -4535,7 +4460,7 @@ Examples:
   $ asciidoc --help=syntax
   $ asciidoc -hs              # Short version of previous example.
 
-=== Customizing Help
+=== Customizing Help ===
 To change, delete or add your own help topics edit a help
 configuration file.  The help file name `help-<lang>.conf` is based on
 the setting of the `lang` attribute, it defaults to `help.conf`
@@ -4556,12 +4481,12 @@ ambiguous. If a matching help file section is not found a list of
 available topics is printed.
 
 
-== Tips and Tricks
+== 祕訣與技巧 ==
 
-=== Know Your Editor
+=== Know Your Editor ===
 Writing AsciiDoc documents will be a whole lot more pleasant if you
 know your favorite text editor. Learn how to indent and reformat text
-blocks, paragraphs, lists and sentences. <<X20,Tips for 'vim' users>>
+blocks, paragraphs, lists and sentences. <<X20,給 'vim' 使用者的技巧>>
 follow.
 
 [[X20]]
@@ -4932,9 +4857,8 @@ define the attribute `asciidoc7compatible` (for example by using the
 [appendix]
 == 套件製作者注意事項 ==
 請參讀 `README` 及 `INSTALL` 文檔(在發行檔的根目錄中)內有安裝需知及程序。
-The distribution
-`Makefile.in` (used by `configure` to generate the `Makefile`) is the
-canonical installation procedure.
+使用發行版中的 `Makefile.in` (`configure` 會用它來產生 `Makefile`)
+是最典型的安裝程序。
 
 
 [[X39]]
@@ -4988,10 +4912,9 @@ AsciiDoc能夠處理UTF-8字元集但要注意下列事項：
 NOTE: 你仍需要在AsciiDoc源碼檔中使用 'NOTE', 'CAUTION', 'TIP', 'WARNING',
 'IMPORTANT' ，他們會在HTML輸出檔中被轉換。
 
-- asciidoc(1) automatically loads configuration files named like
-  `lang-<lang>.conf` where `<lang>` is a two letter language code that
-  matches the current AsciiDoc `lang` attribute. See also
-  <<X27,Configuration File Names and Locations>>.
+- asciidoc(1)命令將自動載入組態檔名稱長的像 `lang-<lang>.conf` 這個樣的檔案。
+  這邊 `<lang>` 是一個兩個字元的語言碼，此碼會跟目前AsciiDoc 的 `lang` 屬性
+  相對應。請見 <<X27,組態檔名稱及位置>>。
 
 - Some character sets display double-width characters (for example
   Japanese). As far as <<X17,title underlines>> are concerned they
