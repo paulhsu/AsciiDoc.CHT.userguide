@@ -367,8 +367,8 @@ List of Terms
 .....................................................................
 
 2. 當標題文字與組態檔中的<<X16,`[specialsections]`>>項目相符合時。
-3. If neither of the above the default `sect<level>` template is used
-   (where `<level>` is a number from 1 to 4).
+3. 若都不符合上面二者則使用 `sect<level>` 模版作為預設模版。
+   (`<level>` 為一個數字範圍從1到4)。
 
 除了一般的區段模版名稱('sect1', 'sect2','sect3', 'sect4')之外，AsciiDoc還有下列給前頁
 (frontmatter)，後頁(backmatter)及其他區段的特殊模版： 'abstract', 'preface', 'colophon',
@@ -399,19 +399,17 @@ ID的產生將使用下述演算法：
 
 [[X16]]
 ==== 特殊區段標題 ====
-AsciiDoc has a mechanism for mapping predefined section titles
-auto-magically to specific markup templates. For example a title
-'Appendix A: Code Reference' will automatically use the 'appendix'
-<<X93,section markup template>>. The mappings from title to template
-name are specified in `[specialsections]` sections in the Asciidoc
-language configuration files (`lang-*.conf`).  Section entries are
-formatted like:
+AsciiDoc有一個機制可以將一些事先定義好的區段標題很神奇的對應到特定的區段
+標記模版。比如說下面這個標題 'Appendix A: Code Reference' 就會自動使用
+'appendix' 這個<<X93,區段標記模版>>。關於標題跟模版名稱怎麼定義都定義在
+AsciiDoc的語言組態檔(`lang-*.conf`)中的 `[specialsections]` 段裡。
+區段的內容格式長的大概像是這樣：
+Section entries are formatted like:
 
   <title>=<template>
 
-`<title>` is a Python regular expression and `<template>` is the name
-of a configuration file markup template section. If the `<title>`
-matches an AsciiDoc document section title then the backend output is
+`<title>` 是一個Python的正規表示式而 `<template>` 則是組態檔中標記模版中的
+一個名稱。If the `<title>` matches an AsciiDoc document section title then the backend output is
 marked up using the `<template>` markup template (instead of the
 default `sect<level>` section template). The `{title}` attribute value
 is set to the value of the matched regular expression group named
@@ -483,13 +481,10 @@ AsciiDoc源碼文件如何被讀入及處理，將有下列步驟：
 2. 接著每一個文件的 '分段(Section)' 都會被處理，把其構成要素轉譯到輸出檔中。
 3. 最後，組態檔中 `[footer]` 範本段會被取代掉然後寫入輸出檔中。
 
-When a block element is encountered asciidoc(1) determines the type of
-block by checking in the following order (first to last): (section)
-Titles, BlockMacros, Lists, DelimitedBlocks, Tables, AttributeEntrys,
-AttributeLists, BlockTitles, Paragraphs.
+當asciidoc(1)遇到一個塊狀單元時會用下列順序來確定其形態：(區段)標題、
+塊狀巨集、列表、分界區塊、表格、屬性項目、屬性列表、區塊標題、文章分段。
 
-The default paragraph definition `[paradef-default]` is last element
-to be checked.
+預設的文章段落定義 `[paradef-default]` 是最後一個核對的項目。
 
 了解文件解析的順序會幫助你設計出正確(不會模擬兩可)的巨集、列表跟區塊的語法
 規則。
@@ -631,8 +626,7 @@ and ~some sub text~
 (C) 版權所有， (TM) 商標， (R) 註冊商標， -- 強調用的破折號， 
 ... 省略符號， -> 右箭頭， <- 左箭頭，  => 雙槓右箭頭，  <= 雙槓左箭頭。
 
-You can also include arbitrary entity references in the AsciiDoc
-source. Examples:
+你也可以在AsciiDoc源碼文件中含入任何的屬性參考項目。例如：
 
   &#x278a; &#182;
 
@@ -697,13 +691,11 @@ source. Examples:
 =====================================================================
 
 === 浮動式標題 ===
-Setting the title's first positional attribute or 'style' attribute to
-'float' generates a free-floating title. A free-floating title is
-rendered just like a normal section title but is not formally
-associated with a text body and is not part of the regular section
-hierarchy so the normal ordering rules do not apply. Floating titles
-can also be used in contexts where section titles are illegal: for
-example sidebar and admonition blocks.  Example:
+若設定標題的第一個屬性(在位置上第一個)或是設定 'style' 屬性為 'float'
+則會產生一個浮動式標題。浮動式標題最後看起來的樣子就像一般的區段標題一
+樣不同的地方在浮動式標題並不需要跟一個文字塊有關系，並且浮動式標題也不
+屬於一般的區段階層之中。浮動式標題也可用在一些“有區塊標題是不對的“的狀
+況，像是：示範用途的邊欄區塊或是警示區塊。例如：
 
   [float]
   The second day
@@ -714,12 +706,9 @@ example sidebar and admonition blocks.  Example:
 
 [[X42]]
 == 區塊標題 ==
-一個 '區塊標題(BlockId)' 是由一個句號開頭的標題文字。通常會用在文章的一段之後
-，或是分隔區塊、列表、表格、區塊巨集之後。下面這個例子：
-A 'BlockTitle' element is a single line beginning with a period
-followed by the title text. A BlockTitle is applied to the immediately
-following Paragraph, DelimitedBlock, List, Table or BlockMacro. For
-example:
+一個 '區塊標題(BlockId)' 是由一個句號開頭的標題文字。通常會用在文章的
+一段之後，或是分隔區塊(DelimitedBlock)、列表(List)、表格(Table)、區塊
+巨集(BlockMacro)之後。下面這個例子：
 
 ........................
 .注意事項
@@ -766,7 +755,7 @@ The 'BlockId' element has the same syntax and serves the same function
 to the <<X30,anchor inline macro>>.
 
 [[X79]]
-== AttributeList Element
+== 屬性列表元素(AttributeList Element) ==
 An 'AttributeList' block element is an <<X21,attribute list>> on a
 line by itself:
 
@@ -778,7 +767,7 @@ line by itself:
 - The first positional attribute in the list is often used to specify
   the ensuing element's <<X23,style>>.
 
-=== Attribute value substitution
+=== Attribute value substitution ===
 By default, only substitutions that take place inside attribute list
 values are attribute references, this is because not all attributes
 are destined to be marked up and rendered as text (for example the
@@ -796,12 +785,12 @@ is not done well; but you are surprised to find it done at all.
 _____________________________________________________________________
 ---------------------------------------------------------------------
 
-=== Common attributes
-Most block elements support the following attributes:
+=== 一般屬性(Common attributes) ===
+大部分的塊狀單元都支援下列屬性：
 
 [cols="1e,1,5a",frame="topbot",options="header"]
 |====================================================================
-|Name |Backends |Description
+|名稱 |後端 |描述
 
 |id |html4, xhtml11, docbook |
 Unique identifier typically serve as link targets.
@@ -825,7 +814,7 @@ The 'reftext' attribute can an also be set by the 'BlockId' element.
 |====================================================================
 
 
-== Paragraphs
+== 文章段落(Paragraphs) ===
 Paragraphs are blocks of text terminated by a blank line, the end of
 file, or the start of a DelimitedBlock.  Paragraph markup is specified
 by configuration file `[paradef-*]` sections.
@@ -837,7 +826,7 @@ paragraph of text. 'literal' and 'verse' paragraph styles are
 available (in addition to the 'default' paragraph style).
 
 [[X85]]
-=== literal paragraph style
+=== literal paragraph style ===
 Literal paragraphs are rendered verbatim in a monospaced font without
 any distinguishing background or border.  By default there is no text
 formatting or substitutions within Literal paragraphs apart from
@@ -881,7 +870,7 @@ consetetur, eu pro everti postulant
 homero verear ea mea, qui.
 
 [[X94]]
-=== verse paragraph style
+=== verse paragraph style ===
 The 'verse' paragraph <<X23,style>> preserves line boundaries and is
 useful for lyrics and poems.  For example:
 
@@ -900,29 +889,27 @@ consetetur, eu pro everti postulant
 homero verear ea mea, qui.
 
 [[X28]]
-=== Admonition Paragraphs
-'TIP', 'NOTE', 'IMPORTANT', 'WARNING' and 'CAUTION' admonishment
-paragraph styles are generated by placing `NOTE:`, `TIP:`,
-`IMPORTANT:`, `WARNING:` or `CAUTION:` as the first word of the
-paragraph. For example:
+=== 警示段落(Admonition Paragraphs) ===
+若個文章段落的第一個字是以 `NOTE:`, `TIP:`, `IMPORTANT:`, `WARNING:` 
+或 `CAUTION:` 為其開頭，則會產生下列的警示段落 'TIP', 'NOTE', 
+'IMPORTANT', 'WARNING' 及 'CAUTION' 。舉例如下：
 
   NOTE: This is an example note.
 
-Alternatively, you can specify the paragraph admonition style
-explicitly using an <<X79,AttributeList element>>. For example:
+還有另外一種方式，你可以使用<<X79,屬性列表元素>>來指定這一段所使用警
+示段落的形式，例如：
 
   [NOTE]
   This is an example note.
 
-Renders:
+輸出成：
 
 NOTE: This is an example note.
 
-TIP: If your admonition requires more than a single paragraph use an
-<<X22,admonition block>> instead.
+TIP: 如果你警示的內容不只一段，那你可以使用<<X22,警示區塊>>來代替。
 
 [[X47]]
-==== Admonition Icons and Captions
+==== 警示圖示及說明文字(Admonition Icons and Captions) ====
 NOTE: Admonition customization with `icons`, `iconsdir`, `icon` and
 `caption` attributes does not apply when generating DocBook output. If
 you are going the DocBook route then the <<X43,a2x(1)>> `--no-icons`
@@ -955,47 +942,45 @@ if <<X45,admonition icons>> have been enabled):
 This subsection also applies to <<X22,Admonition Blocks>>.
 
 
-== Delimited Blocks
-Delimited blocks are blocks of text enveloped by leading and trailing
-delimiter lines (normally a series of four or more repeated
-characters). The behavior of Delimited Blocks is specified by entries
-in configuration file `[blockdef-*]` sections.
+== 分界區塊(Delimited Blocks) ==
+分界區塊是由兩個分界列夾起來的內容而成的區塊(分界列通常是一連串四個或
+四個以上相同字元而成的一列)分界區塊的行為定義在組態檔中的
+`[blockdef-*]` 段。
 
-=== Predefined Delimited Blocks
-AsciiDoc ships with a number of predefined DelimitedBlocks (see the
-`asciidoc.conf` configuration file in the asciidoc(1) program
-directory):
+=== 預設的分界區塊(Predefined Delimited Blocks) ===
+AsciiDoc已經定義了好幾種分界區塊(參考asciidoc(1)目錄下的的組態檔 
+`asciidoc.conf`)：
 
-Predefined delimited block underlines:
+預設的分界區塊如下：
 
-  CommentBlock:     //////////////////////////
-  PassthroughBlock: ++++++++++++++++++++++++++
-  ListingBlock:     --------------------------
-  LiteralBlock:     ..........................
-  SidebarBlock:     **************************
-  QuoteBlock:       __________________________
-  ExampleBlock:     ==========================
-  OpenBlock:        --
+  註解區塊(CommentBlock):         //////////////////////////
+  依照原樣區塊(PassthroughBlock): ++++++++++++++++++++++++++
+  列表區塊(ListingBlock):         --------------------------
+  字面區塊(LiteralBlock):         ..........................
+  邊欄區塊(SidebarBlock):         **************************
+  引用區塊(QuoteBlock):           __________________________
+  範例區塊(ExampleBlock):         ==========================
+  開放式區塊(OpenBlock):          --
 
 The <<X56,code>>, <<X57,source>> and <<X58,music>> filter blocks are
 detailed in the <<X59,Filters>> section.
 
-.Default DelimitedBlock substitutions
+.預設的分界區塊的替換行為(Default DelimitedBlock substitutions)
 [cols="2e,7*^",frame="topbot",options="header,autowidth"]
 |=====================================================
-| |Attributes |Callouts |Macros | Quotes |Replacements
-|Special chars |Special words
+| |Attributes |Callouts |Macros | Quotes |Replacements|Special chars 
+|Special words
 
-|PassthroughBlock |Yes |No  |Yes |No  |No  |No  |No
-|ListingBlock     |No  |Yes |No  |No  |No  |Yes |No
-|LiteralBlock     |No  |Yes |No  |No  |No  |Yes |No
-|SidebarBlock     |Yes |No  |Yes |Yes |Yes |Yes |Yes
-|QuoteBlock       |Yes |No  |Yes |Yes |Yes |Yes |Yes
-|ExampleBlock     |Yes |No  |Yes |Yes |Yes |Yes |Yes
-|OpenBlock        |Yes |No  |Yes |Yes |Yes |Yes |Yes
+|依照原樣區塊(PassthroughBlock) |Yes |No  |Yes |No  |No  |No  |No
+|列表區塊(ListingBlock)         |No  |Yes |No  |No  |No  |Yes |No
+|字面區塊(LiteralBlock)         |No  |Yes |No  |No  |No  |Yes |No
+|邊欄區塊(SidebarBlock)         |Yes |No  |Yes |Yes |Yes |Yes |Yes
+|引用區塊(QuoteBlock)           |Yes |No  |Yes |Yes |Yes |Yes |Yes
+|範例區塊(ExampleBlock)         |Yes |No  |Yes |Yes |Yes |Yes |Yes
+|開放式區塊(OpenBlock)          |Yes |No  |Yes |Yes |Yes |Yes |Yes
 |=====================================================
 
-=== Listing Blocks
+=== 列表區塊(Listing Blocks) ===
 'ListingBlocks' are rendered verbatim in a monospaced font, they
 retain line and whitespace formatting and are often distinguished by a
 background or border. There is no text formatting or substitutions
@@ -1031,9 +1016,9 @@ By convention <<X59,filter blocks>> use the listing block syntax and
 are implemented as distinct listing block styles.
 
 [[X65]]
-=== Literal Blocks
-'LiteralBlocks' are rendered just like <<X85,literal paragraphs>>.
-Example:
+=== 字面區塊(Literal Blocks) ===
+'字面區塊(LiteralBlocks)' 的輸出就像<<X85,字面段落>>一樣。
+例如：
 
 ---------------------------------------------------------------------
 ...................................
@@ -1043,7 +1028,7 @@ homero verear ea mea, qui.
 ...................................
 ---------------------------------------------------------------------
 
-Renders:
+輸出成：
 ...................................
 Consul *necessitatibus* per id,
 consetetur, eu pro everti postulant
@@ -1089,11 +1074,10 @@ In this paper we will ...
 ---------------------------------------------------------------------
 
 [[X26]]
-=== Comment Blocks
-The contents of 'CommentBlocks' are not processed; they are useful for
-annotations and for excluding new or outdated content that you don't
-want displayed. CommentBlocks are never written to output files.
-Example:
+=== 註解區塊(Comment Blocks) ===
+'註解區塊(CommentBlocks)' 的內容並不會被處理；所以註解區塊的使用很適合
+用來把一些新的或過時的內容標註起來，因為你可能暫時不希望這些內容被看到
+。註解區塊永遠都不會被寫到輸出檔中。例如：
 
 ---------------------------------------------------------------------
 //////////////////////////////////////////
@@ -1102,12 +1086,12 @@ asciidoc(1).
 //////////////////////////////////////////
 ---------------------------------------------------------------------
 
-See also <<X25,Comment Lines>>.
+也請參考<<X25,註解列>>。
 
 NOTE: System macros are executed inside comment blocks.
 
 [[X76]]
-=== Passthrough Blocks
+=== 依照原樣區塊(Passthrough Blocks) ===
 By default the block contents is subject only to 'attributes' and
 'macros' substitutions (use an explicit 'subs' attribute to apply
 different substitutions).  PassthroughBlock content will often be
@@ -1132,7 +1116,7 @@ asciimath, latexmath::
   By default no substitutions are performed, the contents are rendered
   as <<X78,mathematical formulas>>.
 
-=== Quote Blocks
+=== 引用區塊(Quote Blocks) ===
 'QuoteBlocks' are used for quoted passages of text. There are two
 styles: 'quote' and 'verse'. The style is set by the first positional
 attribute, if no style attribute is specified the 'quote' style.  The
@@ -1181,7 +1165,7 @@ And eternity in an hour.
 __________________________________________________
 
 [[X48]]
-=== Example Blocks
+=== 範例區塊(Example Blocks) ===
 'ExampleBlocks' encapsulate the DocBook Example element and are used
 for, well, examples.  Example blocks can be titled by preceding them
 with a 'BlockTitle'.  DocBook toolchains will normally automatically
@@ -1192,16 +1176,16 @@ contain any block elements apart from Titles, BlockTitles and
 Sidebars) inside an example block. For example:
 
 ---------------------------------------------------------------------
-.An example
+.這是一個範例
 =====================================================================
 Qui in magna commodo, est labitur dolorum an. Est ne magna primis
 adolescens.
 =====================================================================
 ---------------------------------------------------------------------
 
-Renders:
+輸出成：
 
-.An example
+.這是一個範例
 =====================================================================
 Qui in magna commodo, est labitur dolorum an. Est ne magna primis
 adolescens.
@@ -1220,7 +1204,7 @@ adolescens.
 ---------------------------------------------------------------------
 
 [[X22]]
-=== Admonition Blocks
+=== 警示區塊(Admonition Blocks) ===
 The 'ExampleBlock' definition includes a set of admonition
 <<X23,styles>> ('NOTE', 'TIP', 'IMPORTANT', 'WARNING', 'CAUTION') for
 generating admonition blocks (admonitions containing more than a
@@ -1262,7 +1246,7 @@ adolescens.
 See also <<X47,Admonition Icons and Captions>>.
 
 [[X29]]
-=== Open Blocks
+=== 開放式區塊(Open Blocks)
 An 'OpenBlock' renders the block contents without any opening or
 closing tags. The open block start and end delimiter is a single line
 containing two dashes. Enclosed elements are rendered just as they
