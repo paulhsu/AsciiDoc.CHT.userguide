@@ -815,9 +815,9 @@ The 'reftext' attribute can an also be set by the 'BlockId' element.
 
 
 == 文章段落(Paragraphs) ===
-Paragraphs are blocks of text terminated by a blank line, the end of
-file, or the start of a DelimitedBlock.  Paragraph markup is specified
-by configuration file `[paradef-*]` sections.
+所謂的文章段落是指一段文字之後，最後為一列空白列或是檔案結尾(end of
+file)或者是一個個分界區塊的開頭。文章段落的標記定義在組態檔的 
+`[paradef-*]` 段中。
 
 Normal paragraphs consist of one or more non-blank lines of text. The
 first line must start hard against the left margin (no intervening
@@ -826,7 +826,7 @@ paragraph of text. 'literal' and 'verse' paragraph styles are
 available (in addition to the 'default' paragraph style).
 
 [[X85]]
-=== literal paragraph style ===
+=== 字面文件段落形式(literal paragraph style) ===
 Literal paragraphs are rendered verbatim in a monospaced font without
 any distinguishing background or border.  By default there is no text
 formatting or substitutions within Literal paragraphs apart from
@@ -862,7 +862,7 @@ consetetur, eu pro everti postulant
 homero verear ea mea, qui.
 ---------------------------------------------------------------------
 
-Renders:
+輸出成：
 
 [literal]
 Consul *necessitatibus* per id,
@@ -870,9 +870,9 @@ consetetur, eu pro everti postulant
 homero verear ea mea, qui.
 
 [[X94]]
-=== verse paragraph style ===
-The 'verse' paragraph <<X23,style>> preserves line boundaries and is
-useful for lyrics and poems.  For example:
+=== 詩式文件段落形式(verse paragraph style) ===
+'詩(verse)式' 文件段落 <<X23,形式>>保留了列的邊界，很適合用在歌詞及詩上。
+例如：
 
 ---------------------------------------------------------------------
 [verse]
@@ -881,7 +881,7 @@ consetetur, eu pro everti postulant
 homero verear ea mea, qui.
 ---------------------------------------------------------------------
 
-Renders:
+輸出成：
 
 [verse]
 Consul *necessitatibus* per id,
