@@ -1,4 +1,4 @@
-= AsciiDoc 使用者指南 =
+= AsciiDoc 使用者指南(中文版) =
 Stuart Rackham <srackham@gmail.com>
 :Author Initials: SJR
 
