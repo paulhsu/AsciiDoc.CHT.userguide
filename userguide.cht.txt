@@ -289,7 +289,7 @@ footnote:[這只是一個大概的概覽，並不是一個嚴謹的語法定義]
 
   $ asciidoc -a revdate=2004/07/27 article.txt
 
-The 'revnumber' attribute can be an RCS/CVS/SVN $Id$ marker.
+'revnumber' 屬性可以是一個RCS/CVS/SVN的$Id$標記。
 Attributes can also be added to the header for substitution in the
 header template with <<X18,屬性項目>> elements.
 
@@ -404,7 +404,6 @@ AsciiDoc有一個機制可以將一些事先定義好的區段標題很神奇的
 'appendix' 這個<<X93,區段標記模版>>。關於標題跟模版名稱怎麼定義都定義在
 AsciiDoc的語言組態檔(`lang-*.conf`)中的 `[specialsections]` 段裡。
 區段的內容格式長的大概像是這樣：
-Section entries are formatted like:
 
   <title>=<template>
 
@@ -419,12 +418,10 @@ existing entry with the same `<title>` will be deleted.
 
 .特殊區段標題 vs. explicit template names
 *********************************************************************
-AsciiDoc has two mechanisms for specifying non-default section markup
-templates: you can specify the template name explicitly (using the
-'template' attribute) or indirectly (using 'special section titles').
-Specifying a <<X93,section template>> attribute explicitly is
-preferred.  Auto-magical 'special section titles' have the following
-drawbacks:
+AsciiDoc有兩種機制來標示非預設的區段標記模版：你可以使用 'template' 屬性
+，明確的標出模版名稱，或是使用 'special section titles' 間接標出來。
+不過還是比較建議使用<<X93,區段模版(section template)>>屬性來標示。
+使用 'special section titles' 有下列幾點壞處：
 
 - They are non-obvious, you have to know the exact matching
   title for each special section on a language by language basis.
@@ -511,8 +508,8 @@ New quote types can be defined by editing asciidoc(1) configuration
 files. See the <<X7,Configuration Files>> section for details.
 
 .引用文字之行為(Quoted text behavior)
-- Quoting cannot be overlapped.
-- Different quoting types can be nested.
+- 引用行為無法交錯。Quoting cannot be overlapped.
+- 不同的引用形式可以可以巢狀內嵌。Different quoting types can be nested.
 - To suppress quoted text formatting place a backslash character
   immediately in front of the leading quote character(s). In the case
   of ambiguity between escaped and non-escaped text you will need to
@@ -521,7 +518,7 @@ files. See the <<X7,Configuration Files>> section for details.
   characters.
 
 [[X96]]
-==== Quoted text attributes
+==== 引用文字之屬性Quoted text attributes
 Quoted text can be prefixed with an <<X21,attribute list>>.  The first
 positional attribute is translated by AsciiDoc to an HTML 'span'
 element 'class' attribute or a DocBook 'phrase' element 'role'
@@ -4612,16 +4609,15 @@ Attribute lists::
     ["Desktop screenshot",width=32]
 
 [[X90]]
-=== Combining separate documents
-You have a number of stand-alone AsciiDoc documents that you want to
-process as a single document. Simply processing them with a series of
-`include` macros won't work because the documents contain (level 0)
-document titles.  The solution is to create a top level wrapper
-document and use the `leveloffset` attribute to push them all down one
-level. For example:
+=== 合併不同文件Combining separate documents
+你有好幾個獨立的AsciiDoc文件，現在你想要把他們處理成一份單一的文件。
+如果只是簡單的使用一連串的 `include` 巨集的話並沒有用，因為文件中含有
+文件標題(level 0)。解決的方法是這樣，在建一個最上層的包裹文件，並在此
+文件上使用 `leveloffset` 屬性，這樣會迫使含入的文件階層被降一層。
+例如：
 
 ---------------------------------------------------------------------
-Combined Document Title
+合併後的文件標題
 _______________________
 
 :leveloffset: 1
@@ -4633,9 +4629,8 @@ _______________________
 \include::document3.txt[]
 ---------------------------------------------------------------------
 
-The document titles in the included documents will now be processed as
-level 1 section titles, level 1 sections as level 2 sections and so
-on.
+這樣一來，被含入的文件的文件標題就會被當成是level 1的區段標題，原本level 1的
+會被當成level 2處理，依此類推。
 
 - Put a blank line between the `include` macro lines to ensure the
   title of the included document is not seen as part of the last
@@ -4866,12 +4861,12 @@ asciidoc(1) `--safe` command-line option.
 
 [WARNING]
 =====================================================================
-The safe mode is not designed to protect against unsafe AsciiDoc
-configuration files. Be especially careful when:
+安全模式的設計並非用來保護其免於不安全的AsciiDoc組態文件的為害。在作這
+些事情時請特別注意：
 
-1. Implementing filters.
-2. Implementing elements that don't escape special characters.
-3. Accepting configuration files from untrusted sources.
+1. 實作濾鏡(filters)。
+2. 實作一些不會跳脫特殊字元的元素時。
+3. 使用不明來源的組態檔。
 =====================================================================
 
 
