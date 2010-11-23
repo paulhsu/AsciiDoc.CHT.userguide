@@ -500,6 +500,7 @@ AsciiDoc源碼文件如何被讀入及處理，將有下列步驟：
 至於替換的順序及怎麼替換則由組態檔中的參數來決定。
 
 #Unquoted text#::
+        把\#井字號放在文字的兩端#將不會有任何效果，
         Placing \#hashes around text# does nothing, it is a mechanism
         to allow inline attributes to be applied to otherwise
         unformatted text.
@@ -729,42 +730,34 @@ and ~some sub text~
 
 
 [[X41]]
-== BlockId Element
-A 'BlockId' is a single line block element containing a unique
-identifier enclosed in double square brackets. It is used to assign an
-identifier to the ensuing block element. For example:
+== BlockId元素 ==
+一個 'BlockId' 是一個單列元素，其內容就是兩個方框號包著一個獨一的識別字
+所構成。通常用它來指派一個特殊的識別記號給其後接著的塊狀元素。例如：
 
   [[chapter-titles]]
   Chapter titles can be ...
 
-The preceding example identifies the ensuing paragraph so it can be
-referenced from other locations, for example with
+上面這個例子給這個文字段落一個識別記號叫作 'chapter-titles' ，這樣一來，
+我們就可以在別的地方用下列這個方式來參照到這個段落，例如：
 `<<chapter-titles,chapter titles>>`.
 
-'BlockId' elements can be applied to Title, Paragraph, List,
-DelimitedBlock, Table and BlockMacro elements.  The BlockId element
-sets the `{id}` attribute for substitution in the subsequent block's
-markup template. If a second positional argument is supplied it sets
-the `{reftext}` attribute which is used to set the DocBook `xreflabel`
-attribute.
+'BlockId' 元素可以使用在標題、文章段落、列表、分隔區塊，表格及BlockMacro elements中。  
+BlockId元素設置了 `{id}` 屬性，這可用在後面的區塊的標記模版中作替換之用。
+如果有給第2個參數的話，其值會設給 `{reftext}` 屬性作為其值，這個值會成為
+DocBook的 `xreflabel` 屬性的值。
 
-The 'BlockId' element has the same syntax and serves the same function
-to the <<X30,anchor inline macro>>.
+'BlockId' 元素與<<X30,anchor inline macro>>具有相同的語法及功用。
 
 [[X79]]
 == 屬性列表元素(AttributeList Element) ==
-An 'AttributeList' block element is an <<X21,attribute list>> on a
-line by itself:
+一個 '屬性列表' 區塊元素就是自成一列的<<X21,屬性列表 list>>：
 
-- 'AttributeList' attributes are only applied to the immediately
-  following block element -- the attributes are made available to the
+- '屬性列表' 屬性只會作用在其後緊跟著的塊狀元素 -- the attributes are made available to the
   block's markup template.
-- Multiple contiguous 'AttributeList' elements are additively combined
-  in the order they appear..
-- The first positional attribute in the list is often used to specify
-  the ensuing element's <<X23,style>>.
+- 多個連續的 '屬性列表' 元素會照其出現的順序累加的併在一起。
+- 順序上通常第一個列表上的屬性會用來指定後面接著的元素的<<X23,style>>。
 
-=== Attribute value substitution ===
+===  屬性值的替換 ===
 By default, only substitutions that take place inside attribute list
 values are attribute references, this is because not all attributes
 are destined to be marked up and rendered as text (for example the
@@ -816,22 +809,19 @@ The 'reftext' attribute can an also be set by the 'BlockId' element.
 file)或者是一個個分界區塊的開頭。文章段落的標記定義在組態檔的 
 `[paradef-*]` 段中。
 
-Normal paragraphs consist of one or more non-blank lines of text. The
-first line must start hard against the left margin (no intervening
-white space). The default processing expectation is that of a normal
+一般的文章段落由一列或多列非空白列的內文所組成。首列會由最左邊開始(沒有空白
+字元)。The default processing expectation is that of a normal
 paragraph of text. 'literal' and 'verse' paragraph styles are
 available (in addition to the 'default' paragraph style).
 
 [[X85]]
-=== 字面文件段落形式(literal paragraph style) ===
-Literal paragraphs are rendered verbatim in a monospaced font without
-any distinguishing background or border.  By default there is no text
-formatting or substitutions within Literal paragraphs apart from
-Special Characters and Callouts.
+=== 字面文字段落形式(literal paragraph style) ===
+字面文字段落會顯示出來的效果會是逐字地使用等寬字體印出，字體後面不會有
+背景或粗體的效果。預設的狀況下不會有文字的格式設定或文字替換在字面文字
+段落發生，除非是特殊字元跟Callouts。
 
-The 'literal' style is applied to indented paragraphs i.e. where the
-first line of the paragraph is indented by one or more space or tab
-characters.  For example:
+'字面(literal)' 風格會作用在有縮排的文章段落，例如一段的第一列有縮排一個
+、多個空白或tab字元。例如：
 
 ---------------------------------------------------------------------
   Consul *necessitatibus* per id,
@@ -839,7 +829,7 @@ characters.  For example:
   homero verear ea mea, qui.
 ---------------------------------------------------------------------
 
-Renders:
+會輸出成
 
   Consul *necessitatibus* per id,
   consetetur, eu pro everti postulant
@@ -849,8 +839,8 @@ NOTE: Because <<X64,lists>> can be indented it's possible for your
 indented paragraph to be misinterpreted as a list -- in situations
 like this apply the 'literal' style to a normal paragraph.
 
-Instead of using a paragraph indent you could apply the 'literal'
-style explicitly, for example:
+除了你自己縮排一個文章段落之外，你也可以直接使用 'literal' 來達成同樣的
+效果，例如：
 
 ---------------------------------------------------------------------
 [literal]
