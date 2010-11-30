@@ -1110,7 +1110,7 @@ attribute, if no style attribute is specified the 'quote' style.  The
 optional 'attribution' and 'citetitle' attributes (positional
 attributes 2 and 3) specify the quote's author and source.
 
-The 'quote' style treats the content like a SectionBody, for example:
+'quote' 風格對內容的處理就像SectionBody一樣，例如：
 
 ---------------------------------------------------------------------
 [quote, Bertrand Russell, The World of Mathematics (1956)]
@@ -1120,7 +1120,7 @@ it almost seem like a live teacher.
 ____________________________________________________________________
 ---------------------------------------------------------------------
 
-Which is rendered as:
+會輸出成：
 
 [quote, Bertrand Russell, The World of Mathematics (1956)]
 ____________________________________________________________________
@@ -1128,8 +1128,7 @@ A good notation has subtlety and suggestiveness which at times makes
 it almost seem like a live teacher.
 ____________________________________________________________________
 
-The 'verse' style
-retains the content's line breaks, for example:
+'verse' 風格會保留內容的斷行，例如：
 
 ---------------------------------------------------------------------
 [verse, William Blake, from Auguries of Innocence]
@@ -1141,7 +1140,7 @@ And eternity in an hour.
 __________________________________________________
 ---------------------------------------------------------------------
 
-Which is rendered as:
+會輸出成：
 
 [verse, William Blake, from Auguries of Innocence]
 __________________________________________________
